@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288601102990",
+    "project_id": "thrombolaize-3f3a0",
+    "storage_bucket": "thrombolaize-3f3a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288601102990:android:f29e2941e814478a5487df",
+        "android_client_info": {
+          "package_name": "com.example.thrombolaize"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdrYT3NOyucM8bGPeVKiT4LDZcmloq34s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
