@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.thrombolaize.view.Login
 import com.example.thrombolaize.view.Register
+import com.example.thrombolaize.view.ForgotPassword
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
@@ -31,8 +32,19 @@ fun MainNavHost(navController: NavHostController) {
                             inclusive = true
                         }
                     }
-                }
+                },
+                navController = navController
             )
         }
+
+        composable(Screens.ForgotPassword.route) {
+            ForgotPassword(
+                navController = navController
+            )
+        }
+
+//        composable(Screens.Home.route) {
+//            Home()
+//        }
     }
 }

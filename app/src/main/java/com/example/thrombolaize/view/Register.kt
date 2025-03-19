@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
@@ -27,17 +28,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.thrombolaize.R
-import com.example.thrombolaize.ui.theme.SteelBlue
+import com.example.thrombolaize.routes.Screens
+import com.example.thrombolaize.ui.theme.BleuDeFrance
+import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.LoginViewModel
 
 @Composable
-fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()) {
+fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
     var username by remember {
         mutableStateOf("")
@@ -52,19 +57,19 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
         mutableStateOf(false)
     }
 
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.SpaceBetween,
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.login_light_icon),
-//            contentDescription = "login image",
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 100.dp)
-//        )
-//    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.authentication_logo),
+            contentDescription = "register image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp)
+        )
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +80,10 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             value = username,
             onValueChange = { username = it },
             label = {
-                Text(text = "Username")
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Username"
+                )
             },
             leadingIcon = {
                 Icon(
@@ -86,12 +94,12 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedBorderColor = SteelBlue,
-                unfocusedBorderColor = SteelBlue,
-                focusedLeadingIconColor = SteelBlue,
-                unfocusedLeadingIconColor = SteelBlue,
-                focusedLabelColor = SteelBlue,
-                unfocusedLabelColor = SteelBlue,
+                focusedBorderColor = BleuDeFrance,
+                unfocusedBorderColor = BleuDeFrance,
+                focusedLeadingIconColor = BleuDeFrance,
+                unfocusedLeadingIconColor = BleuDeFrance,
+                focusedLabelColor = BleuDeFrance,
+                unfocusedLabelColor = BleuDeFrance,
                 unfocusedPlaceholderColor = Color.Gray,
                 focusedTextColor = Color.Black
             ),
@@ -104,23 +112,26 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             value = email,
             onValueChange = { email = it },
             label = {
-                Text(text = "Email")
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Email"
+                )
             },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.Email,
                     contentDescription = "email icon"
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedBorderColor = SteelBlue,
-                unfocusedBorderColor = SteelBlue,
-                focusedLeadingIconColor = SteelBlue,
-                unfocusedLeadingIconColor = SteelBlue,
-                focusedLabelColor = SteelBlue,
-                unfocusedLabelColor = SteelBlue,
+                focusedBorderColor = BleuDeFrance,
+                unfocusedBorderColor = BleuDeFrance,
+                focusedLeadingIconColor = BleuDeFrance,
+                unfocusedLeadingIconColor = BleuDeFrance,
+                focusedLabelColor = BleuDeFrance,
+                unfocusedLabelColor = BleuDeFrance,
                 unfocusedPlaceholderColor = Color.Gray,
                 focusedTextColor = Color.Black
             ),
@@ -136,7 +147,10 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
                 passwordEntered = true
             },
             label = {
-                Text(text = "Password")
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Password"
+                )
             },
             leadingIcon = {
                 Icon(
@@ -147,12 +161,12 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedBorderColor = SteelBlue,
-                unfocusedBorderColor = SteelBlue,
-                focusedLeadingIconColor = SteelBlue,
-                unfocusedLeadingIconColor = SteelBlue,
-                focusedLabelColor = SteelBlue,
-                unfocusedLabelColor = SteelBlue,
+                focusedBorderColor = BleuDeFrance,
+                unfocusedBorderColor = BleuDeFrance,
+                focusedLeadingIconColor = BleuDeFrance,
+                unfocusedLeadingIconColor = BleuDeFrance,
+                focusedLabelColor = BleuDeFrance,
+                unfocusedLabelColor = BleuDeFrance,
                 unfocusedPlaceholderColor = Color.Gray,
                 focusedTextColor = Color.Black
             ),
@@ -164,25 +178,44 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
 
         Button(
             onClick = {
-                loginViewModel.registerUser(username, email, password) { success ->
+                loginViewModel.registerUser(username, email, password) { success, errorMessage ->
                     if (success) {
                         Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show()
                         registerSuccess()
                     } else {
-                        Toast.makeText(context, "Registration Failed!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, errorMessage ?: "Registration Failed!", Toast.LENGTH_SHORT).show()
                     }
                 }
             },
-            colors = ButtonDefaults.buttonColors(SteelBlue),
+            colors = ButtonDefaults.buttonColors(BleuDeFrance),
             contentPadding = PaddingValues(18.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 20.dp)
+                .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 5.dp)
         ) {
             Text(
-                text = "Register",
+                fontFamily = fontFamily,
                 fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                text = "Register",
                 color = Color.White
+            )
+        }
+
+        Button(
+            onClick = {
+                navController.navigate(Screens.Login.route)
+            },
+            colors = ButtonDefaults.buttonColors(Color.Transparent),
+            modifier = Modifier
+                .padding(bottom = 15.dp)
+        ) {
+            Text(
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.W900,
+                fontSize = 14.sp,
+                text = "Already have an account? Click here to Log In!",
+                color = BleuDeFrance
             )
         }
     }

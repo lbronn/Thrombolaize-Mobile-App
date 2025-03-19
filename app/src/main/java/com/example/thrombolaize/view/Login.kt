@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -37,13 +38,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
 import com.example.thrombolaize.routes.Screens
-import com.example.thrombolaize.ui.theme.SteelBlue
+import com.example.thrombolaize.ui.theme.BleuDeFrance
 import com.example.thrombolaize.ui.theme.White
+import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.LoginViewModel
 
 @Composable
 fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
-    val context = LocalContext.current.applicationContext
+    val context = LocalContext.current
     var email by remember {
         mutableStateOf("")
     }
@@ -54,19 +56,19 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
         mutableStateOf(false)
     }
 
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.SpaceBetween,
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.login_light_icon),
-//            contentDescription = "login image",
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 100.dp)
-//        )
-//    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.authentication_logo),
+            contentDescription = "login image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 100.dp)
+        )
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,7 +81,10 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
                 email = it
             },
             label = {
-                Text(text = "Email")
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Email"
+                )
             },
             leadingIcon = {
                 Icon(
@@ -90,12 +95,12 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedBorderColor = SteelBlue,
-                unfocusedBorderColor = SteelBlue,
-                focusedLeadingIconColor = SteelBlue,
-                unfocusedLeadingIconColor = SteelBlue,
-                focusedLabelColor = SteelBlue,
-                unfocusedLabelColor = SteelBlue,
+                focusedBorderColor = BleuDeFrance,
+                unfocusedBorderColor = BleuDeFrance,
+                focusedLeadingIconColor = BleuDeFrance,
+                unfocusedLeadingIconColor = BleuDeFrance,
+                focusedLabelColor = BleuDeFrance,
+                unfocusedLabelColor = BleuDeFrance,
                 unfocusedPlaceholderColor = Color.Gray,
                 focusedTextColor = Color.Black
             ),
@@ -111,7 +116,10 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
                 passwordEntered = true
             },
             label = {
-                Text(text = "Password")
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Password"
+                )
             },
             leadingIcon = {
                 Icon(
@@ -122,12 +130,12 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
-                focusedBorderColor = SteelBlue,
-                unfocusedBorderColor = SteelBlue,
-                focusedLeadingIconColor = SteelBlue,
-                unfocusedLeadingIconColor = SteelBlue,
-                focusedLabelColor = SteelBlue,
-                unfocusedLabelColor = SteelBlue,
+                focusedBorderColor = BleuDeFrance,
+                unfocusedBorderColor = BleuDeFrance,
+                focusedLeadingIconColor = BleuDeFrance,
+                unfocusedLeadingIconColor = BleuDeFrance,
+                focusedLabelColor = BleuDeFrance,
+                unfocusedLabelColor = BleuDeFrance,
                 unfocusedPlaceholderColor = Color.Gray,
                 focusedTextColor = Color.Black
             ),
@@ -144,22 +152,24 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
         ) {
             Button(
                 onClick = {
-                    loginViewModel.loginUser(email, password) { success ->
+                    loginViewModel.loginUser(email, password) { success, errorMessage ->
                         if (success) {
                             Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
                             loginSuccess()
                         } else {
-                            Toast.makeText(context, "Invalid Credentials!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, errorMessage ?: "Invalid Credentials!", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
-                colors = ButtonDefaults.buttonColors(SteelBlue),
+                colors = ButtonDefaults.buttonColors(BleuDeFrance),
                 contentPadding = PaddingValues(start = 40.dp, end = 40.dp, top = 15.dp, bottom = 15.dp),
-                modifier = Modifier.padding(15.dp)
+                modifier = Modifier.padding(top = 15.dp, start = 15.dp)
             ) {
                 Text(
-                    text = "Login",
+                    fontFamily = fontFamily,
                     fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    text = "Login",
                     color = Color.White
                 )
             }
@@ -169,30 +179,34 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
                     navController.navigate(Screens.Register.route)
                 },
                 colors = ButtonDefaults.buttonColors(White),
-                border = BorderStroke(2.dp, SteelBlue),
+                border = BorderStroke(2.dp, BleuDeFrance),
                 contentPadding = PaddingValues(start = 40.dp, end = 40.dp, top = 15.dp, bottom = 15.dp),
                 modifier = Modifier.padding(top = 15.dp, end = 15.dp)
             ) {
                 Text(
-                    text = "Register",
+                    fontFamily = fontFamily,
                     fontSize = 20.sp,
-                    color = SteelBlue
+                    fontWeight = FontWeight.Bold,
+                    text = "Register",
+                    color = BleuDeFrance
                 )
             }
         }
 
         Button(
             onClick = {
-                Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+                navController.navigate(Screens.ForgotPassword.route)
             },
             colors = ButtonDefaults.buttonColors(Color.Transparent),
             modifier = Modifier
-                .padding(bottom = 15.dp)
+                .padding(top = 10.dp, bottom = 15.dp)
         ) {
             Text(
-                text = "Forgot Password? Click Here!",
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.W900,
                 fontSize = 15.sp,
-                color = SteelBlue
+                text = "Forgot Password? Click Here!",
+                color = BleuDeFrance
             )
         }
     }

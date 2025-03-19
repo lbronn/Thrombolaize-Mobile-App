@@ -15,7 +15,12 @@ class LoginViewModel: ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun registerUser(username: String, email: String, password: String, onResult: (Boolean) -> Unit) {
+    fun registerUser(username: String, email: String, password: String, onResult: (Boolean, String?) -> Unit) {
+        if (username.isBlank() || email.isBlank() || password.isBlank()) {
+            onResult(false, "Invalid Credentials!")
+            return
+        }
+
         isLoading = true
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -30,24 +35,41 @@ class LoginViewModel: ViewModel() {
                     }
                 } else {
                     loginError = task.exception?.message
-                    onResult(false)
+                    onResult(false, null)
                 }
             }
     }
 
-    fun loginUser(email: String, password: String, onResult: (Boolean) -> Unit) {
-        isLoading = true
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                isLoading = false
-                if (task.isSuccessful) {
-                    auth.currentUser?.let { firebaseUser ->
-                        fetchUserFromFirestore(firebaseUser.email ?: "", onResult)
-                    }
+    fun loginUser(email: String, password: String, onResult: (Boolean, String?) -> Unit) {
+        if (email.isBlank() || password.isBlank()) {
+            onResult(false, "Email or password must not be empty!")
+            return
+        }
+
+        db.collection("users")
+            .whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    onResult(false, "Email is not registered!")
                 } else {
-                    loginError = task.exception?.message
-                    onResult(false)
+                    isLoading = true
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            isLoading = false
+                            if (task.isSuccessful) {
+                                auth.currentUser?.let { firebaseUser ->
+                                    fetchUserFromFirestore(firebaseUser.email ?: "", onResult)
+                                }
+                            } else {
+                                loginError = task.exception?.message
+                                onResult(false, "Invalid Credentials!")
+                            }
+                        }
                 }
+            }
+            .addOnFailureListener { exception ->
+                onResult(false, exception.localizedMessage ?: "Error verifying email!")
             }
     }
 
@@ -70,14 +92,14 @@ class LoginViewModel: ViewModel() {
             }
     }
 
-    private fun saveUserToFirestore(user: User, onResult: (Boolean) -> Unit) {
+    private fun saveUserToFirestore(user: User, onResult: (Boolean, String?) -> Unit) {
         db.collection("users").document(user.userID.toString())
             .set(user)
-            .addOnSuccessListener { onResult(true) }
-            .addOnFailureListener { onResult(false) }
+            .addOnSuccessListener { onResult(true, null) }
+            .addOnFailureListener { onResult(false, null) }
     }
 
-    private fun fetchUserFromFirestore(email: String, onResult: (Boolean) -> Unit) {
+    private fun fetchUserFromFirestore(email: String, onResult: (Boolean, String?) -> Unit) {
         db.collection("users")
             .whereEqualTo("email", email)
             .get()
@@ -85,13 +107,13 @@ class LoginViewModel: ViewModel() {
                 if (!documents.isEmpty) {
                     val userData = documents.documents.first().toObject(User::class.java)
                     user = userData
-                    onResult(true)
+                    onResult(true, null)
                 } else {
-                    onResult(false)
+                    onResult(false, "Invalid Credentials!")
                 }
             }
             .addOnFailureListener {
-                onResult(false)
+                onResult(false, null)
             }
     }
 }

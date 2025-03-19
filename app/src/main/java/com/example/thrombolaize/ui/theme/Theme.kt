@@ -16,14 +16,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = SteelBlue,
+    primary = BleuDeFrance,
+    background = Bubbles,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = White,
-    background = White,
+    primary = Bubbles,
+    background = Bubbles,
     secondary = PurpleGrey40,
     tertiary = Pink40
 
@@ -59,7 +60,8 @@ fun ThrombolaizeTheme(
     if(!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = SteelBlue.toArgb()
+            window.statusBarColor = BleuDeFrance.toArgb()
+            window.decorView.setBackgroundColor(Bubbles.toArgb())
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
