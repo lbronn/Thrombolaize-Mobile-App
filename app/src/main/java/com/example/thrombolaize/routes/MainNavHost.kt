@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.example.thrombolaize.view.Login
 import com.example.thrombolaize.view.Register
 import com.example.thrombolaize.view.ForgotPassword
+import com.example.thrombolaize.view.Home
 
 @Composable
 fun MainNavHost(navController: NavHostController) {
@@ -27,7 +28,7 @@ fun MainNavHost(navController: NavHostController) {
         composable(Screens.Register.route) {
             Register(
                 registerSuccess = {
-                    navController.navigate(Screens.Home.route) {
+                    navController.navigate(Screens.Login.route) {
                         popUpTo(navController.graph.startDestinationId) {
                             inclusive = true
                         }
@@ -43,8 +44,8 @@ fun MainNavHost(navController: NavHostController) {
             )
         }
 
-//        composable(Screens.Home.route) {
-//            Home()
-//        }
+        composable(Screens.Home.route) {
+            Home()
+        }
     }
 }

@@ -58,7 +58,7 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
             .padding(bottom = 50.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.app_icon),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "register image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,7 +75,6 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
                     .fillMaxSize()
-//                    .padding(bottom = 0.dp)
             ) {
                 Text(
                     fontFamily = fontFamily,
@@ -166,7 +165,7 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                     contentPadding = PaddingValues(18.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 5.dp)
+                        .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 30.dp)
                 ) {
                     Text(
                         fontFamily = fontFamily,
