@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.example.thrombolaize.ui.theme.Bubbles
 
 @Composable
-fun Home() {
+fun Profile() {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +28,7 @@ fun Home() {
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             color = Color.Black,
-            text = "Home Screen"
+            text = "Profile Screen"
         )
     }
 }
