@@ -12,14 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.example.thrombolaize.ui.theme.Bubbles
+import com.example.thrombolaize.ui.theme.Alabaster
 
 @Composable
 fun Home() {
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .background(Bubbles),
+            .background(Alabaster),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {

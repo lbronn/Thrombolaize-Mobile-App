@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bubbles">#FFEAFBFF</color>
+    <color name="navyblue">#FF0D47A1</color>
+    <color name="skyblue">#FF2196F3</color>
+    <color name="darkmidnightblue">#FF000932</color>
+    <color name="alabaster">#FFFAFAFA</color>
+    <color name="figmablue">#FF2260FF</color>
 </resources>

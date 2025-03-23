@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -39,7 +38,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
 import com.example.thrombolaize.routes.Screens
-import com.example.thrombolaize.ui.theme.BleuDeFrance
+import com.example.thrombolaize.ui.theme.Alabaster
+import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.ForgotPasswordViewModel
 
@@ -82,7 +82,7 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
                     text = "Forgot Your Password?",
-                    color = BleuDeFrance,
+                    color = FigmaBlue,
                     modifier = Modifier
                         .padding(start = 20.dp, end = 20.dp)
                 )
@@ -94,7 +94,7 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                     lineHeight = 25.sp,
                     fontSize = 14.sp,
                     text = "Enter your email address to reset it!",
-                    color = BleuDeFrance,
+                    color = FigmaBlue,
                     modifier = Modifier
                         .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
                 )
@@ -115,16 +115,16 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                         )
                     },
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White,
-                        focusedBorderColor = BleuDeFrance,
-                        unfocusedBorderColor = BleuDeFrance,
-                        focusedLeadingIconColor = BleuDeFrance,
-                        unfocusedLeadingIconColor = BleuDeFrance,
-                        focusedLabelColor = BleuDeFrance,
-                        unfocusedLabelColor = BleuDeFrance,
-                        unfocusedPlaceholderColor = Color.Gray,
-                        focusedTextColor = Color.Black
+                        focusedContainerColor = Alabaster,
+                        unfocusedContainerColor = Alabaster,
+                        focusedBorderColor = FigmaBlue,
+                        unfocusedBorderColor = FigmaBlue,
+                        focusedLeadingIconColor = FigmaBlue,
+                        unfocusedLeadingIconColor = FigmaBlue,
+                        focusedLabelColor = FigmaBlue,
+                        unfocusedLabelColor = FigmaBlue,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -141,11 +141,11 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                             }
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(BleuDeFrance),
-                    contentPadding = PaddingValues(18.dp),
+                    colors = ButtonDefaults.buttonColors(FigmaBlue),
+                    border = BorderStroke(3.dp, FigmaBlue),
+                    contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 5.dp)
+                        .padding(top = 8.dp)
                 ) {
                     Text(
                         fontFamily = fontFamily,
@@ -160,19 +160,24 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                     onClick = {
                         navController.navigate(Screens.Login.route)
                     },
-                    colors = ButtonDefaults.buttonColors(Color.White),
-                    border = BorderStroke(2.dp, color = BleuDeFrance),
-                    contentPadding = PaddingValues(18.dp),
+                    colors = ButtonDefaults.buttonColors(Color.Transparent),
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 30.dp)
+                        .padding(bottom = 50.dp)
                 ) {
                     Text(
                         fontFamily = fontFamily,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        text = "Back to Login",
-                        color = BleuDeFrance
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        text = "Just Remembered It? ",
+                        color = Color.Black
+                    )
+
+                    Text(
+                        fontFamily = fontFamily,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        text = "Log In",
+                        color = FigmaBlue
                     )
                 }
             }

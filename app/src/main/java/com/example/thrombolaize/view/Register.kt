@@ -1,10 +1,12 @@
 package com.example.thrombolaize.view
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +39,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
 import com.example.thrombolaize.routes.Screens
-import com.example.thrombolaize.ui.theme.BleuDeFrance
+import com.example.thrombolaize.ui.theme.Alabaster
+import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.LoginViewModel
 
@@ -63,7 +66,7 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.authentication_logo),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "register image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,16 +95,16 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedBorderColor = BleuDeFrance,
-                unfocusedBorderColor = BleuDeFrance,
-                focusedLeadingIconColor = BleuDeFrance,
-                unfocusedLeadingIconColor = BleuDeFrance,
-                focusedLabelColor = BleuDeFrance,
-                unfocusedLabelColor = BleuDeFrance,
-                unfocusedPlaceholderColor = Color.Gray,
-                focusedTextColor = Color.Black
+                focusedContainerColor = Alabaster,
+                unfocusedContainerColor = Alabaster,
+                focusedBorderColor = FigmaBlue,
+                unfocusedBorderColor = FigmaBlue,
+                focusedLeadingIconColor = FigmaBlue,
+                unfocusedLeadingIconColor = FigmaBlue,
+                focusedLabelColor = FigmaBlue,
+                unfocusedLabelColor = FigmaBlue,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -124,16 +127,16 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedBorderColor = BleuDeFrance,
-                unfocusedBorderColor = BleuDeFrance,
-                focusedLeadingIconColor = BleuDeFrance,
-                unfocusedLeadingIconColor = BleuDeFrance,
-                focusedLabelColor = BleuDeFrance,
-                unfocusedLabelColor = BleuDeFrance,
-                unfocusedPlaceholderColor = Color.Gray,
-                focusedTextColor = Color.Black
+                focusedContainerColor = Alabaster,
+                unfocusedContainerColor = Alabaster,
+                focusedBorderColor = FigmaBlue,
+                unfocusedBorderColor = FigmaBlue,
+                focusedLeadingIconColor = FigmaBlue,
+                unfocusedLeadingIconColor = FigmaBlue,
+                focusedLabelColor = FigmaBlue,
+                unfocusedLabelColor = FigmaBlue,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -159,16 +162,16 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedBorderColor = BleuDeFrance,
-                unfocusedBorderColor = BleuDeFrance,
-                focusedLeadingIconColor = BleuDeFrance,
-                unfocusedLeadingIconColor = BleuDeFrance,
-                focusedLabelColor = BleuDeFrance,
-                unfocusedLabelColor = BleuDeFrance,
-                unfocusedPlaceholderColor = Color.Gray,
-                focusedTextColor = Color.Black
+                focusedContainerColor = Alabaster,
+                unfocusedContainerColor = Alabaster,
+                focusedBorderColor = FigmaBlue,
+                unfocusedBorderColor = FigmaBlue,
+                focusedLeadingIconColor = FigmaBlue,
+                unfocusedLeadingIconColor = FigmaBlue,
+                focusedLabelColor = FigmaBlue,
+                unfocusedLabelColor = FigmaBlue,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             ),
             visualTransformation = if (!passwordEntered) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier
@@ -187,11 +190,11 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
                     }
                 }
             },
-            colors = ButtonDefaults.buttonColors(BleuDeFrance),
-            contentPadding = PaddingValues(18.dp),
+            colors = ButtonDefaults.buttonColors(FigmaBlue),
+            border = BorderStroke(3.dp, FigmaBlue),
+            contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 80.dp, end = 80.dp, top = 12.dp, bottom = 5.dp)
+                .padding(top = 15.dp)
         ) {
             Text(
                 fontFamily = fontFamily,
@@ -208,15 +211,27 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             },
             colors = ButtonDefaults.buttonColors(Color.Transparent),
             modifier = Modifier
-                .padding(bottom = 15.dp)
+                .padding(bottom = 30.dp)
         ) {
-            Text(
-                fontFamily = fontFamily,
-                fontWeight = FontWeight.W900,
-                fontSize = 14.sp,
-                text = "Already have an account? Click here to Log In!",
-                color = BleuDeFrance
-            )
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    text = "Already have an account? ",
+                    color = Color.Black
+                )
+
+                Text(
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 14.sp,
+                    text = "Login Here!",
+                    color = FigmaBlue
+                )
+            }
         }
     }
 }

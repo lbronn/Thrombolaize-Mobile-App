@@ -23,23 +23,22 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.thrombolaize.ui.theme.ThrombolaizeTheme
-import com.example.thrombolaize.routes.MainNavHost
-import com.example.thrombolaize.ui.theme.Bubbles
 import com.example.thrombolaize.main.dataClasses.BottomNavbarItems
+import com.example.thrombolaize.routes.MainNavHost
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
-import com.example.thrombolaize.ui.theme.BleuDeFrance
+import com.example.thrombolaize.ui.theme.Bubbles
+import com.example.thrombolaize.ui.theme.FigmaBlue
+import com.example.thrombolaize.ui.theme.ThrombolaizeTheme
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 
@@ -92,13 +91,13 @@ class Thrombolaize : ComponentActivity() {
 
                 Surface (
                     modifier = Modifier.fillMaxSize(),
-                    color = Bubbles
+                    color = Alabaster
                 ) {
                     Scaffold(
                         bottomBar = {
                             if (currentRoute in bottomNavRoutes) {
                                 NavigationBar(
-                                    containerColor = BleuDeFrance
+                                    containerColor = FigmaBlue
                                 ) {
                                     bottomNavBarItems.forEachIndexed { index, bottomNavbarItem ->
                                         NavigationBarItem(
@@ -143,10 +142,10 @@ class Thrombolaize : ComponentActivity() {
                                                 }
                                             },
                                             colors = androidx.compose.material3.NavigationBarItemDefaults.colors(
-                                                selectedIconColor = BleuDeFrance,
-                                                unselectedIconColor = Alabaster,
+                                                selectedIconColor = FigmaBlue,
+                                                unselectedIconColor = White,
                                                 selectedTextColor = White,
-                                                unselectedTextColor = Alabaster,
+                                                unselectedTextColor = White,
                                                 indicatorColor = Bubbles
                                             )
                                         )
@@ -159,7 +158,7 @@ class Thrombolaize : ComponentActivity() {
                             navController = navController,
                             modifier = Modifier
                                 .padding(innerPadding)
-                                .background(Bubbles)
+                                .background(Alabaster)
                         )
                     }
                 }
