@@ -1,4 +1,4 @@
-package com.example.thrombolaize.view
+package com.example.thrombolaize.view.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

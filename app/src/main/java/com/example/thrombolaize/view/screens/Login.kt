@@ -1,4 +1,4 @@
-package com.example.thrombolaize.view
+package com.example.thrombolaize.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -88,7 +88,7 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
             },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.Email,
                     contentDescription = "email icon"
                 )
             },
@@ -184,7 +184,7 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
                 fontFamily = fontFamily,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.ExtraBold,
-                text = "Login",
+                text = "Log In",
                 color = White
             )
         }

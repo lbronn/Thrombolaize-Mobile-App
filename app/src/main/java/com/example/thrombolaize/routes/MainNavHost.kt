@@ -5,13 +5,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.thrombolaize.view.Login
-import com.example.thrombolaize.view.Register
-import com.example.thrombolaize.view.ForgotPassword
-import com.example.thrombolaize.view.Home
-import com.example.thrombolaize.view.Messages
-import com.example.thrombolaize.view.Notifications
-import com.example.thrombolaize.view.Profile
+import com.example.thrombolaize.view.screens.Login
+import com.example.thrombolaize.view.screens.Register
+import com.example.thrombolaize.view.screens.ForgotPassword
+import com.example.thrombolaize.view.screens.Home
+import com.example.thrombolaize.view.screens.Hospitals
+import com.example.thrombolaize.view.screens.Messages
+import com.example.thrombolaize.view.screens.Profile
 
 @Composable
 fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -56,12 +56,12 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
             Messages()
         }
 
-        composable(Screens.Notifications.route) {
-            Notifications()
+        composable(Screens.Hospitals.route) {
+            Hospitals()
         }
 
         composable(Screens.Profile.route) {
-            Profile()
+            Profile(navController = navController)
         }
     }
 }

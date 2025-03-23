@@ -1,4 +1,4 @@
-package com.example.thrombolaize.view
+package com.example.thrombolaize.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke

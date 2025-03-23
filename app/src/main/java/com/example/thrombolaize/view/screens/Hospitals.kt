@@ -1,4 +1,4 @@
-package com.example.thrombolaize.view
+package com.example.thrombolaize.view.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.example.thrombolaize.ui.theme.Alabaster
 
 @Composable
-fun Home() {
+fun Hospitals() {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +28,7 @@ fun Home() {
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             color = Color.Black,
-            text = "Home Screen"
+            text = "Hospitals Screen"
         )
     }
 }
