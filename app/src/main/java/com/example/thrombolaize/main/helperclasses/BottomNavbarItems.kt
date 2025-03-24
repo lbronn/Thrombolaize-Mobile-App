@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main.helperClasses
+package com.example.thrombolaize.main.helperclasses
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector

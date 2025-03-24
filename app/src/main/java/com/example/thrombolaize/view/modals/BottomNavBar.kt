@@ -1,11 +1,8 @@
 package com.example.thrombolaize.view.modals
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.FloatingActionButton
@@ -16,17 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultShadowColor
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperClasses.BottomNavbarItems
-import com.example.thrombolaize.main.helperClasses.NavIcon
-import com.example.thrombolaize.ui.theme.Alabaster
+import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
+import com.example.thrombolaize.main.helperclasses.NavIcon
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
@@ -40,10 +37,7 @@ fun BottomNavBar(selectedIndex: Int, onItemSelected: (Int) -> Unit, items: List<
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(90.dp)
-            .background(Alabaster)
+        modifier = Modifier.fillMaxWidth()
     ) {
         NavigationBar(
             containerColor = White,
@@ -51,12 +45,9 @@ fun BottomNavBar(selectedIndex: Int, onItemSelected: (Int) -> Unit, items: List<
                 .align(Alignment.BottomCenter)
                 .shadow(
                     elevation = 10.dp,
-                    shape = RoundedCornerShape(topStart = 33.dp, topEnd = 33.dp),
-                    clip = true,
-                    ambientColor = Color.Black,
-                    spotColor = Color.Black
+                    shape = RectangleShape,
+                    ambientColor = DefaultShadowColor
                 )
-                .clip(RoundedCornerShape(topStart = 33.dp, topEnd = 33.dp))
         ) {
             extendedItems.forEachIndexed { index, bottomNavbarItem ->
                 if (bottomNavbarItem == null) {
@@ -133,7 +124,7 @@ fun BottomNavBar(selectedIndex: Int, onItemSelected: (Int) -> Unit, items: List<
             contentColor = White,
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(top = 7.dp)
+                .padding(bottom = 5.dp)
         ) {
             Icon(
                 painter = painterResource(R.drawable.edit_vector),

@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,12 +40,22 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.view.modals.ProfileInfoCard
-import com.example.thrombolaize.viewmodel.LoginViewModel
+import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
-fun Profile(loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
-    val context = LocalContext.current
+fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
+    LaunchedEffect(Unit) {
+        userAuthenticateViewModel.fetchLoggedInUserIfNeeded()
+    }
 
+    val context = LocalContext.current
+    val user = userAuthenticateViewModel.currentUser
+    val displayName = if (user != null) {
+        "Dr. ${user.firstName} ${user.lastName}"
+    } else {
+        "No name found!"
+    }
+    val displaySpecialty = user?.specialty ?: "No specialty found!"
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -92,7 +103,7 @@ fun Profile(loginViewModel: LoginViewModel = viewModel(), navController: NavCont
             }
 
             Text(
-                text = "Dr. Le Bronn Samson",
+                text = displayName,
                 fontFamily = fontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -101,7 +112,7 @@ fun Profile(loginViewModel: LoginViewModel = viewModel(), navController: NavCont
                     .padding(top = 20.dp)
             )
             Text(
-                text = "Neurologist",
+                text = displaySpecialty,
                 fontFamily = fontFamily,
                 fontWeight = FontWeight.W600,
                 fontSize = 14.sp,
@@ -129,7 +140,7 @@ fun Profile(loginViewModel: LoginViewModel = viewModel(), navController: NavCont
             )
         }
     }
-    
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
@@ -138,7 +149,7 @@ fun Profile(loginViewModel: LoginViewModel = viewModel(), navController: NavCont
         Button(
             onClick = {
                 navController.navigate(Screens.Login.route)
-                loginViewModel.logout()
+                userAuthenticateViewModel.logout()
             },
             colors = ButtonDefaults.buttonColors(Color.Red),
             border = BorderStroke(3.dp, Color.Red),

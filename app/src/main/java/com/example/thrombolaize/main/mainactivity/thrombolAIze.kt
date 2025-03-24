@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main
+package com.example.thrombolaize.main.mainactivity
 
 import android.os.Bundle
 import android.widget.Toast
@@ -25,8 +25,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperClasses.BottomNavbarItems
-import com.example.thrombolaize.main.helperClasses.NavIcon
+import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
+import com.example.thrombolaize.main.helperclasses.NavIcon
 import com.example.thrombolaize.routes.MainNavHost
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster

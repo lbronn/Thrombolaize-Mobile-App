@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThrombolaizeSplashScreen"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_API_KEY}" />
         <activity
-            android:name=".main.Thrombolaize"
+            android:name=".main.mainactivity.Thrombolaize"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ThrombolaizeSplashScreen">

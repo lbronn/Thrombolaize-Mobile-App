@@ -8,15 +8,16 @@ import com.example.thrombolaize.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class LoginViewModel: ViewModel() {
+class UserAuthenticationViewModel: ViewModel() {
     private var user by mutableStateOf<User?>(null)
+    val currentUser: User? get() = user
     private var loginError by mutableStateOf<String?>(null)
     private var isLoading by mutableStateOf(false)
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun registerUser(username: String, email: String, password: String, onResult: (Boolean, String?) -> Unit) {
-        if (username.isBlank() || email.isBlank() || password.isBlank()) {
+    fun registerUser(firstName: String, lastName: String, specialty: String, email: String, password: String, onResult: (Boolean, String?) -> Unit) {
+        if (firstName.isBlank() || lastName.isBlank() || specialty.isBlank() || email.isBlank() || password.isBlank()) {
             onResult(false, "Invalid Credentials!")
             return
         }
@@ -29,7 +30,7 @@ class LoginViewModel: ViewModel() {
                     val firebaseUser = auth.currentUser
                     firebaseUser?.let {
                         getNextUserId { newUserId ->
-                            val newUser = User(userID = newUserId, username = username, email = email)
+                            val newUser = User(userID = newUserId, firstName = firstName, lastName = lastName, specialty = specialty, email = email)
                             saveUserToFirestore(newUser, onResult)
                         }
                     }
@@ -115,5 +116,13 @@ class LoginViewModel: ViewModel() {
             .addOnFailureListener {
                 onResult(false, null)
             }
+    }
+
+    fun fetchLoggedInUserIfNeeded() {
+        val firebaseUser = auth.currentUser
+        if (firebaseUser != null && user == null) {
+            fetchUserFromFirestore(firebaseUser.email ?: "") { _, _ ->
+            }
+        }
     }
 }

@@ -41,10 +41,10 @@ import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
-import com.example.thrombolaize.viewmodel.LoginViewModel
+import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
-fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
+fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
     var email by remember {
         mutableStateOf("")
@@ -165,7 +165,7 @@ fun Login(loginSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel()
 
         Button(
             onClick = {
-                loginViewModel.loginUser(email, password) { success, errorMessage ->
+                userAuthenticateViewModel.loginUser(email, password) { success, errorMessage ->
                     if (success) {
                         Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
                         loginSuccess()

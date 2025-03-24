@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -42,12 +43,18 @@ import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.fontFamily
-import com.example.thrombolaize.viewmodel.LoginViewModel
+import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
-fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewModel(), navController: NavController) {
+fun Register(registerSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
-    var username by remember {
+    var firstName by remember {
+        mutableStateOf("")
+    }
+    var lastName by remember {
+        mutableStateOf("")
+    }
+    var specialty by remember {
         mutableStateOf("")
     }
     var email by remember {
@@ -70,7 +77,7 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
             contentDescription = "register image",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 50.dp)
+                .size(350.dp, 350.dp)
         )
     }
 
@@ -80,18 +87,82 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
         modifier = Modifier.fillMaxSize()
     ) {
         OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
+            value = firstName,
+            onValueChange = { firstName = it },
             label = {
                 Text(
                     fontFamily = fontFamily,
-                    text = "Username"
+                    text = "First Name"
                 )
             },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "username icon"
+                    contentDescription = "first name icon"
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Alabaster,
+                unfocusedContainerColor = Alabaster,
+                focusedBorderColor = FigmaBlue,
+                unfocusedBorderColor = FigmaBlue,
+                focusedLeadingIconColor = FigmaBlue,
+                unfocusedLeadingIconColor = FigmaBlue,
+                focusedLabelColor = FigmaBlue,
+                unfocusedLabelColor = FigmaBlue,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
+
+        OutlinedTextField(
+            value = lastName,
+            onValueChange = { lastName = it },
+            label = {
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Last Name"
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "last name icon"
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Alabaster,
+                unfocusedContainerColor = Alabaster,
+                focusedBorderColor = FigmaBlue,
+                unfocusedBorderColor = FigmaBlue,
+                focusedLeadingIconColor = FigmaBlue,
+                unfocusedLeadingIconColor = FigmaBlue,
+                focusedLabelColor = FigmaBlue,
+                unfocusedLabelColor = FigmaBlue,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
+
+        OutlinedTextField(
+            value = specialty,
+            onValueChange = { specialty = it },
+            label = {
+                Text(
+                    fontFamily = fontFamily,
+                    text = "Medical Specialty"
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.specialty_vector),
+                    contentDescription = "medical specialty icon"
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
@@ -181,7 +252,7 @@ fun Register(registerSuccess: () -> Unit, loginViewModel: LoginViewModel = viewM
 
         Button(
             onClick = {
-                loginViewModel.registerUser(username, email, password) { success, errorMessage ->
+                userAuthenticateViewModel.registerUser(firstName, lastName, specialty, email, password) { success, errorMessage ->
                     if (success) {
                         Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show()
                         registerSuccess()
