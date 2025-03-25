@@ -16,3 +16,4 @@ local.properties
 build.gradle.kts
 gradle.properties
 settings.gradle.kts
+google-services.json
