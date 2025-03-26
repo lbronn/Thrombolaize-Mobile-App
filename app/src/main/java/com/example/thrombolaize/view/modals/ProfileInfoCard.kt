@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -25,13 +26,13 @@ import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 
 @Composable
-fun ProfileInfoCard(painter: Painter, title: String, value: String) {
+fun ProfileInfoCard(painter: Painter, title: String, firstSubtitle: String? = null, secondSubtitle: String? = null) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp),
+            .padding(horizontal = 13.dp, vertical = 9.dp),
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardColors(
             containerColor = White,
             contentColor = White,
@@ -46,7 +47,8 @@ fun ProfileInfoCard(painter: Painter, title: String, value: String) {
             Icon(
                 painter = painter,
                 contentDescription = "icons",
-                tint = FigmaBlue
+                tint = FigmaBlue,
+                modifier = Modifier.size(25.dp)
             )
 
             Spacer(
@@ -58,16 +60,27 @@ fun ProfileInfoCard(painter: Painter, title: String, value: String) {
                     text = title,
                     fontFamily = fontFamily,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     color = FigmaBlue
                 )
-                Text(
-                    text = value,
-                    fontFamily = fontFamily,
-                    fontWeight = FontWeight.W600,
-                    fontSize = 12.sp,
-                    color = Color.Black
-                )
+                if (firstSubtitle != null) {
+                    Text(
+                        text = firstSubtitle,
+                        fontFamily = fontFamily,
+                        fontWeight = FontWeight.W600,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                }
+                if (secondSubtitle != null) {
+                    Text(
+                        text = secondSubtitle,
+                        fontFamily = fontFamily,
+                        fontWeight = FontWeight.W600,
+                        fontSize = 14.sp,
+                        color = Color.Black
+                    )
+                }
             }
         }
     }

@@ -19,12 +19,12 @@ val DarkMidnightBlue = Color(0xFF000932)
 val AccentBlue = Color(0xFF009AFF)
 val AccentBlue2 = Color(0xFF007ACC)
 val FigmaBlue = Color(0xFF2260FF)
+val Azure = Color(0xFF037FFF)
+val Pink = Color(0xFFED3788)
+
 
 val TopGradient = Brush.linearGradient(
-    colors = listOf(
-        Color(0xFF00BCD4),
-        BleuDeFrance
-    ),
-    start = Offset(0f, 0f),
+    colors = listOf(Azure, Pink),
+    start = Offset(200f, 0f),
     end = Offset(500f, 500f)
 )

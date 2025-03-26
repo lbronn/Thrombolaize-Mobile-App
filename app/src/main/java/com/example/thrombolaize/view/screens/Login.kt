@@ -167,7 +167,6 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
             onClick = {
                 userAuthenticateViewModel.loginUser(email, password) { success, errorMessage ->
                     if (success) {
-                        Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
                         loginSuccess()
                     } else {
                         Toast.makeText(context, errorMessage ?: "Invalid Credentials!", Toast.LENGTH_SHORT).show()

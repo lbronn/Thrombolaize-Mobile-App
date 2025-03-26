@@ -12,10 +12,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
 import com.example.thrombolaize.ui.theme.Alabaster
+import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
-fun Home() {
+fun Home(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()) {
+    UseLaunchEffect(userAuthenticateViewModel)
+
     Row(
         modifier = Modifier
             .fillMaxSize()

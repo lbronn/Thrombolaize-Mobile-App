@@ -7,11 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -20,18 +15,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
-import com.example.thrombolaize.main.helperclasses.NavIcon
+import com.example.thrombolaize.main.helperclasses.bottomNBIconsRoutes
 import com.example.thrombolaize.routes.MainNavHost
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.ThrombolaizeTheme
 import com.example.thrombolaize.view.modals.BottomNavBar
+import com.example.thrombolaize.view.modals.bottomNavBarIcons
 
 class Thrombolaize : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,46 +32,17 @@ class Thrombolaize : ComponentActivity() {
         installSplashScreen()
         setContent {
             ThrombolaizeTheme {
-                val bottomNavBarItems = listOf(
-                    BottomNavbarItems(
-                        title = "Home",
-                        selectedItem = NavIcon.VectorIcon(Icons.Filled.Home),
-                        unselectedItem = NavIcon.VectorIcon(Icons.Outlined.Home),
-                        hasBadge = false
-                    ),
-                    BottomNavbarItems(
-                        title = "Messages",
-                        selectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_vector)),
-                        unselectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_outline_vector)),
-                        hasBadge = false,
-                        hasBadgeWithCount = 10
-                    ),
-                    BottomNavbarItems(
-                        title = "Hospitals",
-                        selectedItem = NavIcon.PainterIcon(painterResource(R.drawable.hospital_vector)),
-                        unselectedItem = NavIcon.PainterIcon(painterResource(R.drawable.hospital_outline_vector)),
-                        hasBadge = false
-                    ),
-                    BottomNavbarItems(
-                        title = "Profile",
-                        selectedItem = NavIcon.VectorIcon(Icons.Filled.Person),
-                        unselectedItem = NavIcon.VectorIcon(Icons.Outlined.Person),
-                        hasBadge = true
-                    )
-                )
+                val bottomNavBarItems = bottomNavBarIcons()
+                var selectedBNBIndex by rememberSaveable {
+                    mutableIntStateOf(0)
+                }
 
-                var selectedBNBIndex by rememberSaveable { mutableIntStateOf(0) }
                 val navController = rememberNavController()
                 val context = LocalContext.current
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
-                val bottomNavRoutes = listOf(
-                    Screens.Home.route,
-                    Screens.Messages.route,
-                    Screens.Hospitals.route,
-                    Screens.Profile.route
-                )
+                val bottomNavRoutes = bottomNBIconsRoutes()
 
                 Surface (
                     modifier = Modifier.fillMaxSize(),
