@@ -66,7 +66,7 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
             contentDescription = "login image",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 75.dp)
+                .padding(top = 70.dp)
         )
     }
 
@@ -151,7 +151,7 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
             },
             colors = ButtonDefaults.buttonColors(Color.Transparent),
             modifier = Modifier
-                .padding(bottom = 10.dp, end = 10.dp)
+                .padding(bottom = 22.dp, end = 10.dp)
                 .align(Alignment.End)
         ) {
             Text(

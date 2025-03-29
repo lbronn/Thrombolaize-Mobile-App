@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -37,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
@@ -67,27 +66,50 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
             .fillMaxSize()
             .verticalScroll(scrollable)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(145.dp)
-                .clip(RectangleShape)
-                .background(TopGradient)
-        )
-
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier.size(120.dp),
-                contentAlignment = Alignment.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(145.dp)
+                    .clip(RectangleShape)
+                    .background(TopGradient)
+            ) {
+                IconButton (
+                    onClick = {
+                        Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(5.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.settings_vector),
+                        contentDescription = "settings",
+                        tint = White,
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(CircleShape)
+                            .background(Color.Transparent)
+                            .padding(7.dp)
+
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .offset(y = (-50).dp)
+                    .size(110.dp)
+                    .align(Alignment.CenterHorizontally)
             ) {
                 Box(
                     modifier = Modifier
                         .matchParentSize()
                         .clip(CircleShape)
+                        .zIndex(1f)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.profile_pic),
@@ -98,11 +120,12 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
 
                 IconButton (
                     onClick = {
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+                        navController.navigate(Screens.EditProfile.route)
                     },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .offset(x = 10.dp, y = 3.dp)
+                        .zIndex(1f)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.edit_vector),
@@ -125,63 +148,19 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                 color = Color.Black,
                 modifier = Modifier
                     .padding(top = 20.dp)
+                    .offset(y = (-45).dp)
             )
             Text(
                 text = displaySpecialty,
                 fontFamily = fontFamily,
                 fontWeight = FontWeight.W600,
                 fontSize = 14.sp,
-                color = FigmaBlue
+                color = FigmaBlue,
+                modifier = Modifier.offset(y = (-45).dp)
             )
 
             Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.Absolute.SpaceEvenly
-            ) {
-                IconButton (
-                    onClick = {
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.settings_vector),
-                        contentDescription = "settings",
-                        tint = White,
-                        modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(FigmaBlue)
-                            .padding(7.dp)
-                    )
-                }
-
-                Spacer(
-                    modifier = Modifier.width(10.dp)
-                )
-
-                IconButton (
-                    onClick = {
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
-                    }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.contacts_vector),
-                        contentDescription = "contacts",
-                        tint = White,
-                        modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(FigmaBlue)
-                            .padding(7.dp)
-                    )
-                }
-            }
-
-            Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(5.dp)
             )
 
             profileInfo()
@@ -198,7 +177,7 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                     border = BorderStroke(3.dp, Color.Red),
                     contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
                     modifier = Modifier
-                        .padding(top = 8.dp, bottom = 15.dp)
+                        .padding(top = 5.dp, bottom = 15.dp)
                 ) {
                     Text(
                         fontFamily = fontFamily,

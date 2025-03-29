@@ -12,6 +12,7 @@ import com.example.thrombolaize.view.screens.Home
 import com.example.thrombolaize.view.screens.Hospitals
 import com.example.thrombolaize.view.screens.Messages
 import com.example.thrombolaize.view.screens.Profile
+import com.example.thrombolaize.view.screens.EditProfile
 
 @Composable
 fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -62,6 +63,10 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
 
         composable(Screens.Profile.route) {
             Profile(navController = navController)
+        }
+
+        composable(Screens.EditProfile.route) {
+            EditProfile()
         }
     }
 }
