@@ -24,6 +24,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,13 +50,19 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.TopGradient
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
+import com.example.thrombolaize.view.modals.LogoutBottomModalSheet
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
 fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
     UseLaunchEffect(userAuthenticateViewModel)
-    val scrollable = rememberScrollState()
     val context = LocalContext.current
+    val scrollable = rememberScrollState()
+
+    var showBottomLogoutSheet by remember {
+        mutableStateOf(false)
+    }
+
     val user = userAuthenticateViewModel.currentUser
     val displayName = if (user != null) {
         "Dr. ${user.firstName} ${user.lastName}"
@@ -170,14 +180,20 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
             ) {
                 Button(
                     onClick = {
-                        navController.navigate(Screens.Login.route)
-                        userAuthenticateViewModel.logout()
+                        showBottomLogoutSheet = true
                     },
                     colors = ButtonDefaults.buttonColors(Color.Red),
                     border = BorderStroke(3.dp, Color.Red),
-                    contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
+                    contentPadding = PaddingValues(
+                        start = 90.dp,
+                        end = 90.dp,
+                        top = 15.dp,
+                        bottom = 15.dp
+                    ),
                     modifier = Modifier
-                        .padding(top = 5.dp, bottom = 15.dp)
+                        .padding(bottom = 10.dp)
+                        .offset(y = (-18).dp)
+                        .align(Alignment.CenterHorizontally)
                 ) {
                     Text(
                         fontFamily = fontFamily,
@@ -187,6 +203,16 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                         color = White
                     )
                 }
+            }
+
+
+            if (showBottomLogoutSheet) {
+                LogoutBottomModalSheet (
+                    onDismissRequest = {
+                        showBottomLogoutSheet = false
+                    },
+                    navController = navController
+                )
             }
         }
     }
