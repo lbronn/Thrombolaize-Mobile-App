@@ -43,8 +43,8 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
-import com.example.thrombolaize.main.helperclasses.profileInfo
+import com.example.thrombolaize.helperclasses.UseLaunchEffect
+import com.example.thrombolaize.helperclasses.profileInfo
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.TopGradient

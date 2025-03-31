@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main.helperclasses
+package com.example.thrombolaize.helperclasses
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

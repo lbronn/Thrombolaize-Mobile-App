@@ -13,8 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.HospitalsList
-import com.example.thrombolaize.main.helperclasses.hospitalMarkerIcon
+import com.example.thrombolaize.helperclasses.HospitalsList
+import com.example.thrombolaize.helperclasses.hospitalMarkerIcon
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.GoogleMap

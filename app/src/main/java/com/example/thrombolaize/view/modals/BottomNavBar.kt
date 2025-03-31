@@ -22,8 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
-import com.example.thrombolaize.main.helperclasses.NavIcon
+import com.example.thrombolaize.helperclasses.BottomNavbarItems
+import com.example.thrombolaize.helperclasses.NavIcon
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily

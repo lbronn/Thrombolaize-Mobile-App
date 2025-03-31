@@ -8,8 +8,8 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
-import com.example.thrombolaize.main.helperclasses.NavIcon
+import com.example.thrombolaize.helperclasses.BottomNavbarItems
+import com.example.thrombolaize.helperclasses.NavIcon
 
 @Composable
 fun bottomNavBarIcons(): List<BottomNavbarItems> {

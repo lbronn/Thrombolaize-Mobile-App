@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main.helperclasses
+package com.example.thrombolaize.helperclasses
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,6 +8,6 @@ import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 @Composable
 fun UseLaunchEffect(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()) {
     LaunchedEffect(Unit) {
-        userAuthenticateViewModel.fetchLoggedInUserIfNeeded()
+        userAuthenticateViewModel.fetchLoggedInUser()
     }
 }

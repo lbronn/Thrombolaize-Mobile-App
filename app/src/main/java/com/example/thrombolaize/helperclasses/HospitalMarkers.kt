@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main.helperclasses
+package com.example.thrombolaize.helperclasses
 
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng

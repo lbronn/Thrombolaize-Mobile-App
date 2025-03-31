@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
+import com.example.thrombolaize.helperclasses.UseLaunchEffect
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 

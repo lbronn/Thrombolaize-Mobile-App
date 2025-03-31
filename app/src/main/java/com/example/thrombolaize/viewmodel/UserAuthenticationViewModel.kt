@@ -14,7 +14,11 @@ class UserAuthenticationViewModel: ViewModel() {
     private var loginError by mutableStateOf<String?>(null)
     private var isLoading by mutableStateOf(false)
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    init {
+        fetchLoggedInUser()
+    }
 
     fun registerUser(firstName: String, lastName: String, specialty: String, email: String, password: String, onResult: (Boolean, String?) -> Unit) {
         if (firstName.isBlank() || lastName.isBlank() || specialty.isBlank() || email.isBlank() || password.isBlank()) {
@@ -47,7 +51,7 @@ class UserAuthenticationViewModel: ViewModel() {
             return
         }
 
-        db.collection("users")
+        firestore.collection("users")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
@@ -80,7 +84,7 @@ class UserAuthenticationViewModel: ViewModel() {
     }
 
     private fun getNextUserId(onResult: (Int) -> Unit) {
-        db.collection("users")
+        firestore.collection("users")
             .orderBy("userID")
             .limitToLast(1)
             .get()
@@ -94,14 +98,14 @@ class UserAuthenticationViewModel: ViewModel() {
     }
 
     private fun saveUserToFirestore(user: User, onResult: (Boolean, String?) -> Unit) {
-        db.collection("users").document(user.userID.toString())
+        firestore.collection("users").document(user.userID.toString())
             .set(user)
             .addOnSuccessListener { onResult(true, null) }
             .addOnFailureListener { onResult(false, null) }
     }
 
     private fun fetchUserFromFirestore(email: String, onResult: (Boolean, String?) -> Unit) {
-        db.collection("users")
+        firestore.collection("users")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
@@ -118,7 +122,7 @@ class UserAuthenticationViewModel: ViewModel() {
             }
     }
 
-    fun fetchLoggedInUserIfNeeded() {
+    fun fetchLoggedInUser() {
         val firebaseUser = auth.currentUser
         if (firebaseUser != null && user == null) {
             fetchUserFromFirestore(firebaseUser.email ?: "") { _, _ ->

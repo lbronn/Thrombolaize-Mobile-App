@@ -1,4 +1,4 @@
-package com.example.thrombolaize.main.helperclasses
+package com.example.thrombolaize.helperclasses
 
 data object HospitalsList {
     val hospitalList = listOf(

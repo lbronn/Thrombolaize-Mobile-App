@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".main.mainactivity.MainActivity"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,7 +17,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${GOOGLE_MAPS_API_KEY}" />
         <activity
-            android:name=".main.mainactivity.Thrombolaize"
+            android:name=".main.maincomponent.Thrombolaize"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ThrombolaizeSplashScreen">
