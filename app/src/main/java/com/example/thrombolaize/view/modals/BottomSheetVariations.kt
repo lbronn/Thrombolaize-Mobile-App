@@ -9,28 +9,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,10 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.thrombolaize.R
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
-import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.MessagesViewModel
@@ -84,8 +75,8 @@ fun LogoutBottomModalSheet(onDismissRequest: () -> Unit, userAuthenticateViewMod
                             coroutineScope.launch {
                                 bottomSheetState.hide()
                                 onDismissRequest()
+                                userAuthenticateViewModel.logout()
                             }
-                            userAuthenticateViewModel.logout()
                             navController.navigate(Screens.Login.route)
                         },
                         colors = ButtonDefaults.buttonColors(Color.Red),
@@ -142,9 +133,6 @@ fun NewMessagesModalSheet(onDismissRequest: () -> Unit) {
     val messagesViewModel = hiltViewModel<MessagesViewModel>()
     val bottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
-    var messageTo by remember {
-        mutableStateOf("")
-    }
 
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -159,105 +147,30 @@ fun NewMessagesModalSheet(onDismissRequest: () -> Unit) {
                 verticalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .heightIn(min = 170.dp)
                     .padding(top = 5.dp, bottom = 15.dp)
             ) {
                 Text(
                     fontFamily = fontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    text = "New Message",
+                    fontSize = 22.sp,
+                    text = "Chat with your colleagues",
                     textAlign = TextAlign.Center,
                     color = Color.Black,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    modifier = Modifier.padding(bottom = 7.dp)
                 )
 
-                OutlinedTextField(
-                    value = messageTo,
-                    onValueChange = {
-                        messageTo = it
-                    },
-                    label = {
-                        Text(
-                            fontFamily = fontFamily,
-                            text = "Message To"
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.chats_vector),
-                            contentDescription = "message"
-                        )
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Alabaster,
-                        unfocusedContainerColor = Alabaster,
-                        focusedBorderColor = FigmaBlue,
-                        unfocusedBorderColor = FigmaBlue,
-                        focusedLeadingIconColor = FigmaBlue,
-                        unfocusedLeadingIconColor = FigmaBlue,
-                        focusedLabelColor = FigmaBlue,
-                        unfocusedLabelColor = FigmaBlue,
-                        focusedTextColor = Color.Black,
-                        unfocusedTextColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 30.dp, end = 30.dp, bottom = 15.dp)
+                MessageToUsersCard(
+                    onUserSelected = { selectedUser ->
+                        val receiverID = selectedUser.uid
+                        val recipientName = "${selectedUser.firstName} ${selectedUser.lastName}"
+                        coroutineScope.launch {
+                            messagesViewModel.addMessages(receiverID, recipientName)
+                            bottomSheetState.hide()
+                            onDismissRequest()
+                        }
+                    }
                 )
-
-                Row {
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                messagesViewModel.addMessages(messageTo)
-                                bottomSheetState.hide()
-                                onDismissRequest()
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(FigmaBlue),
-                        contentPadding = PaddingValues(
-                            start = 35.dp,
-                            end = 35.dp,
-                            top = 15.dp,
-                            bottom = 15.dp
-                        )
-                    ) {
-                        Text(
-                            fontFamily = fontFamily,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            text = "Message",
-                            color = White
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                bottomSheetState.hide()
-                                onDismissRequest()
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(Color.White),
-                        border = BorderStroke(2.dp, FigmaBlue),
-                        contentPadding = PaddingValues(
-                            start = 35.dp,
-                            end = 35.dp,
-                            top = 15.dp,
-                            bottom = 15.dp
-                        )
-                    ) {
-                        Text(
-                            fontFamily = fontFamily,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            text = "Cancel",
-                            color = FigmaBlue
-                        )
-                    }
-                }
             }
         }
     )

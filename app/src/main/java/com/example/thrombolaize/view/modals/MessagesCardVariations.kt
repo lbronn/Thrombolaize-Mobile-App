@@ -1,7 +1,5 @@
 package com.example.thrombolaize.view.modals
 
-import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,9 +25,7 @@ import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 
 @Composable
-fun MessagesCard(painter: Painter, messageTitle: String) {
-    val context = LocalContext.current
-
+fun MessagesCard(painter: Painter, messageTitle: String, modifier: Modifier) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,11 +49,11 @@ fun MessagesCard(painter: Painter, messageTitle: String) {
                     painter = painter,
                     contentDescription = "icons",
                     tint = FigmaBlue,
-                    modifier = Modifier.size(25.dp)
+                    modifier = Modifier.size(28.dp)
                 )
 
                 Spacer(
-                    modifier = Modifier.width(12.dp)
+                    modifier = Modifier.width(14.dp)
                 )
 
                 Text(
@@ -67,9 +62,7 @@ fun MessagesCard(painter: Painter, messageTitle: String) {
                     fontSize = 18.sp,
                     text = messageTitle,
                     color = FigmaBlue,
-                    modifier = Modifier.clickable {
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
-                    }
+                    modifier = modifier
                 )
             }
         }

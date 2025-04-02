@@ -3,6 +3,11 @@ package com.example.thrombolaize.view.modals
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.FloatingActionButton
@@ -22,8 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.thrombolaize.R
-import com.example.thrombolaize.helperclasses.BottomNavbarItems
-import com.example.thrombolaize.helperclasses.NavIcon
+import com.example.thrombolaize.main.helperclasses.BottomNavbarItems
+import com.example.thrombolaize.main.helperclasses.NavIcon
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
@@ -132,4 +137,35 @@ fun BottomNavBar(selectedIndex: Int, onItemSelected: (Int) -> Unit, items: List<
             )
         }
     }
+}
+
+@Composable
+fun bottomNavBarIcons(): List<BottomNavbarItems> {
+    return listOf(
+        BottomNavbarItems(
+            title = "Home",
+            selectedItem = NavIcon.VectorIcon(Icons.Filled.Home),
+            unselectedItem = NavIcon.VectorIcon(Icons.Outlined.Home),
+            hasBadge = false
+        ),
+        BottomNavbarItems(
+            title = "Messages",
+            selectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_vector)),
+            unselectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_outline_vector)),
+            hasBadge = false,
+            hasBadgeWithCount = 10
+        ),
+        BottomNavbarItems(
+            title = "Hospitals",
+            selectedItem = NavIcon.PainterIcon(painterResource(R.drawable.hospital_vector)),
+            unselectedItem = NavIcon.PainterIcon(painterResource(R.drawable.hospital_outline_vector)),
+            hasBadge = false
+        ),
+        BottomNavbarItems(
+            title = "Profile",
+            selectedItem = NavIcon.VectorIcon(Icons.Filled.Person),
+            unselectedItem = NavIcon.VectorIcon(Icons.Outlined.Person),
+            hasBadge = true
+        )
+    )
 }

@@ -4,11 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -27,8 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -46,6 +51,7 @@ import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 @Composable
 fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
+    val hideKeyboard = LocalSoftwareKeyboardController.current
     var email by remember {
         mutableStateOf("")
     }
@@ -56,9 +62,8 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
         mutableStateOf(false)
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
+    Box(
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
@@ -66,7 +71,7 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
             contentDescription = "login image",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 70.dp)
+                .padding(top = 50.dp)
         )
     }
 
@@ -76,6 +81,7 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
         modifier = Modifier.fillMaxSize()
     ) {
         OutlinedTextField(
+            singleLine = true,
             value = email,
             onValueChange = {
                 email = it
@@ -104,12 +110,19 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    hideKeyboard?.hide()
+                }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
         )
 
         OutlinedTextField(
+            singleLine = true,
             value = password,
             onValueChange = {
                 password = it
@@ -139,6 +152,12 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    hideKeyboard?.hide()
+                }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 30.dp, end = 30.dp),
@@ -151,7 +170,7 @@ fun Login(loginSuccess: () -> Unit, userAuthenticateViewModel: UserAuthenticatio
             },
             colors = ButtonDefaults.buttonColors(Color.Transparent),
             modifier = Modifier
-                .padding(bottom = 22.dp, end = 10.dp)
+                .padding(bottom = 30.dp, end = 10.dp)
                 .align(Alignment.End)
         ) {
             Text(

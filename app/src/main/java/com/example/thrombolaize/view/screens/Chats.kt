@@ -3,10 +3,12 @@
 package com.example.thrombolaize.view.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,28 +17,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.thrombolaize.R
-import com.example.thrombolaize.main.helperclasses.MessagesInfo
+import com.example.thrombolaize.main.helperclasses.ChatsInMessages
+import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
-import com.example.thrombolaize.view.modals.NewMessagesModalSheet
+import com.example.thrombolaize.viewmodel.ChatsViewModel
 
 @Composable
-fun Messages(navController: NavController) {
-    var showAddMessageModal by remember {
-        mutableStateOf(false)
+fun Chats(navController: NavController, messageID: String, receiverID: String, receiverName: String) {
+    val chatsViewModel: ChatsViewModel = hiltViewModel()
+    val chats by chatsViewModel.currentChats.collectAsState()
+
+    LaunchedEffect(key1 = true) {
+        chatsViewModel.chatsListener(messageID)
     }
 
     Scaffold(
@@ -46,46 +50,41 @@ fun Messages(navController: NavController) {
                     Text(
                         fontFamily = fontFamily,
                         fontWeight = FontWeight.ExtraBold,
-                        fontSize = 30.sp,
-                        text = "Messages",
+                        fontSize = 25.sp,
+                        text = receiverName,
                         color = White
                     )
                 },
-                actions = {
+                navigationIcon = {
                     IconButton(
                         onClick = {
-                            showAddMessageModal = true
+                            navController.navigate(Screens.Messages.route)
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.newchat_vector),
-                            contentDescription = "new chat",
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "back",
                             tint = White,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(40.dp)
                         )
                     }
                 },
-                expandedHeight = 75.dp,
-                colors = TopAppBarDefaults.topAppBarColors(FigmaBlue),
-                modifier = Modifier.padding(bottom = 10.dp)
+                colors = TopAppBarDefaults.topAppBarColors(FigmaBlue)
             )
-
-            if (showAddMessageModal) {
-                NewMessagesModalSheet (
-                    onDismissRequest = {
-                        showAddMessageModal = false
-                    }
-                )
-            }
         }
     ) { contentPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .background(Alabaster)
+                .background(color = Alabaster)
         ) {
-            MessagesInfo(navController = navController)
+            ChatsInMessages(
+                chats = chats,
+                onSendChat = { chatContent ->
+                    chatsViewModel.sendChats(messageID, chatContent, receiverID, receiverName)
+                }
+            )
         }
     }
 }

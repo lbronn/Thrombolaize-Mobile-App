@@ -1,4 +1,4 @@
-package com.example.thrombolaize.helperclasses
+package com.example.thrombolaize.main.helperclasses
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource

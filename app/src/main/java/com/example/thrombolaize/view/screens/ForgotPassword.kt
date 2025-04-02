@@ -11,7 +11,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
@@ -29,8 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,13 +49,13 @@ import com.example.thrombolaize.viewmodel.ForgotPasswordViewModel
 @Composable
 fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
+    val hideKeyboard = LocalSoftwareKeyboardController.current
     var email by remember {
         mutableStateOf("")
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
+    Box(
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 50.dp)
@@ -67,7 +70,6 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
 
         Box(
             modifier = Modifier
-                .size(width = 420.dp, height = 400.dp)
                 .background(color = Color.Transparent)
         ) {
             Column(
@@ -100,6 +102,7 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                 )
 
                 OutlinedTextField(
+                    singleLine = true,
                     value = email,
                     onValueChange = { email = it },
                     label = {
@@ -125,6 +128,12 @@ fun ForgotPassword(forgotPasswordViewModel: ForgotPasswordViewModel = viewModel(
                         unfocusedLabelColor = FigmaBlue,
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            hideKeyboard?.hide()
+                        }
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

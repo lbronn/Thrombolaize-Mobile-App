@@ -3,8 +3,11 @@ package com.example.thrombolaize.routes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.thrombolaize.view.screens.Chats
 import com.example.thrombolaize.view.screens.Login
 import com.example.thrombolaize.view.screens.Register
 import com.example.thrombolaize.view.screens.ForgotPassword
@@ -54,7 +57,7 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
         }
 
         composable(Screens.Messages.route) {
-            Messages()
+            Messages(navController = navController)
         }
 
         composable(Screens.Hospitals.route) {
@@ -67,6 +70,23 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
 
         composable(Screens.EditProfile.route) {
             EditProfile()
+        }
+
+        composable("chats/{messageID}/{receiverID}/{receiverName}", arguments = listOf(
+            navArgument("messageID") {
+                type = NavType.StringType
+            },
+            navArgument("receiverID") {
+                type = NavType.StringType
+            },
+            navArgument("receiverName") {
+                type = NavType.StringType
+            }
+        )) {
+            val messageID = it.arguments?.getString("messageID") ?: ""
+            val receiverID = it.arguments?.getString("receiverID") ?: ""
+            val receiverName = it.arguments?.getString("receiverName") ?: ""
+            Chats(navController = navController, messageID = messageID, receiverID = receiverID, receiverName = receiverName)
         }
     }
 }

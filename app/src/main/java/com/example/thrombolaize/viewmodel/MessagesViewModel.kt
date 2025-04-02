@@ -16,6 +16,8 @@ class MessagesViewModel @Inject constructor() : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val currentUser: String
         get() = auth.currentUser?.uid ?: ""
+    private val currentUserName: String
+        get() = auth.currentUser?.displayName ?: ""
     private val firebaseDB = Firebase.database("https://thrombolaize-3f3a0.firebaseio.com/")
     private val messagesFetched = MutableStateFlow<List<Message>>(emptyList())
     val currentMessages = messagesFetched.asStateFlow()
@@ -26,33 +28,37 @@ class MessagesViewModel @Inject constructor() : ViewModel() {
 
     private fun getMessages() {
         if (currentUser.isNotEmpty()) {
-            firebaseDB.getReference("messages")
-                .get().addOnSuccessListener { snapshot ->
-                    val list = mutableListOf<Message>()
-                    snapshot.children.forEach { data ->
-                        val message = data.getValue(Message::class.java)
-                        if (message != null && message.messageName.isNotEmpty() && message.senderID == currentUser) {
-                            Log.d("MessageDebug", "Fetched message with senderID: ${message.senderID} (currentUser: $currentUser)")
-                            list.add(message)
-                        }
+            firebaseDB.getReference("messages").get().addOnSuccessListener { snapshot ->
+                val list = mutableListOf<Message>()
+                snapshot.children.forEach { data ->
+                    val message = data.getValue(Message::class.java)
+                    if (message != null &&
+                        message.receiverName.isNotEmpty() &&
+                        (message.senderID == currentUser || message.receiverID == currentUser)
+                    ) {
+                        Log.d("MessageDebug", "Fetched messages of senderID ${message.senderID}")
+                        list.add(message)
                     }
-                    list.sortByDescending { it.messageCreated }
-                    messagesFetched.value = list
                 }
+                list.sortByDescending { it.messageCreated }
+                messagesFetched.value = list
+            }
         } else {
             messagesFetched.value = emptyList()
         }
     }
 
 
-    fun addMessages(messageName: String) {
+    fun addMessages(receiverID: String, receiverName: String) {
         if (currentUser.isNotEmpty()) {
             val addMessage = firebaseDB.getReference("messages").push().key
             val newMessage = Message(
                 messageID = addMessage ?: "",
-                messageName = messageName,
+                receiverID = receiverID,
+                receiverName = receiverName,
                 messageCreated = System.currentTimeMillis(),
-                senderID = currentUser
+                senderID = currentUser,
+                senderName = currentUserName
             )
             firebaseDB.getReference("messages").child(addMessage!!).setValue(newMessage).addOnSuccessListener {
                 getMessages()

@@ -1,4 +1,4 @@
-package com.example.thrombolaize.helperclasses
+package com.example.thrombolaize.main.helperclasses
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
@@ -25,6 +25,7 @@ fun bottomNBIconsRoutes(): List<String> {
         Screens.Messages.route,
         Screens.Hospitals.route,
         Screens.Profile.route,
-        Screens.EditProfile.route
+        Screens.EditProfile.route,
+        Screens.Chats.route
     )
 }

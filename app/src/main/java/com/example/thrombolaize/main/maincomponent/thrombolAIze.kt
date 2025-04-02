@@ -18,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.thrombolaize.helperclasses.bottomNBIconsRoutes
+import com.example.thrombolaize.main.helperclasses.bottomNBIconsRoutes
 import com.example.thrombolaize.routes.MainNavHost
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
