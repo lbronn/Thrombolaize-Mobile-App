@@ -69,7 +69,7 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
         }
 
         composable(Screens.EditProfile.route) {
-            EditProfile()
+            EditProfile(navController = navController)
         }
 
         composable("chats/{messageID}/{receiverID}/{receiverName}", arguments = listOf(

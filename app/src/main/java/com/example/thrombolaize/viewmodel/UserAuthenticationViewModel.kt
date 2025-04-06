@@ -53,7 +53,8 @@ class UserAuthenticationViewModel: ViewModel() {
                                             firstName = firstName,
                                             lastName = lastName,
                                             specialty = specialty,
-                                            email = email)
+                                            email = email
+                                        )
                                         saveUserToFirestore(newUser, onResult)
                                     }
                                 } else {

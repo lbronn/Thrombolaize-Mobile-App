@@ -153,7 +153,6 @@ fun bottomNavBarIcons(): List<BottomNavbarItems> {
             selectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_vector)),
             unselectedItem = NavIcon.PainterIcon(painterResource(R.drawable.chats_outline_vector)),
             hasBadge = false,
-            hasBadgeWithCount = 10
         ),
         BottomNavbarItems(
             title = "Hospitals",
@@ -165,7 +164,7 @@ fun bottomNavBarIcons(): List<BottomNavbarItems> {
             title = "Profile",
             selectedItem = NavIcon.VectorIcon(Icons.Filled.Person),
             unselectedItem = NavIcon.VectorIcon(Icons.Outlined.Person),
-            hasBadge = true
+            hasBadge = false
         )
     )
 }
