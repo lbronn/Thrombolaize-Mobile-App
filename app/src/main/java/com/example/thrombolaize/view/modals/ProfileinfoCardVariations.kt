@@ -36,7 +36,7 @@ fun ProfileInfoCard(
 ) {
     Card(
         modifier = Modifier
-            .offset(y = (-42).dp)
+            .offset(y = (-72).dp)
             .fillMaxWidth()
             .padding(horizontal = 13.dp, vertical = 9.dp),
         shape = RoundedCornerShape(10.dp),
@@ -103,7 +103,7 @@ fun CombinedProfileInfoCard(
 ) {
     Card(
         modifier = Modifier
-            .offset(y = (-42).dp)
+            .offset(y = (-72).dp)
             .fillMaxWidth()
             .padding(horizontal = 13.dp, vertical = 9.dp),
         shape = RoundedCornerShape(10.dp),
@@ -204,7 +204,7 @@ fun MultipleTitleProfileInfoCard(
 ) {
     Card(
         modifier = Modifier
-            .offset(y = (-42).dp)
+            .offset(y = (-72).dp)
             .fillMaxWidth()
             .padding(horizontal = 13.dp, vertical = 9.dp),
         shape = RoundedCornerShape(10.dp),

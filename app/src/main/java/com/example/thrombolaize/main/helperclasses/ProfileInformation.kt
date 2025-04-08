@@ -1,38 +1,49 @@
 package com.example.thrombolaize.main.helperclasses
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.thrombolaize.R
 import com.example.thrombolaize.view.modals.CombinedProfileInfoCard
 import com.example.thrombolaize.view.modals.MultipleTitleProfileInfoCard
 import com.example.thrombolaize.view.modals.ProfileInfoCard
+import com.example.thrombolaize.viewmodel.UserProfileViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun profileInfo(): List<Unit> {
+    val userProfileViewModel: UserProfileViewModel = viewModel()
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
+    val allUserDetails by userProfileViewModel.currentUserDetails.collectAsState()
+    val currentUserDetails = allUserDetails.firstOrNull {
+        it.uid == currentUserUid
+    }
+
     return listOf(
         ProfileInfoCard(
             painter = painterResource(R.drawable.person_vector),
             title = "About Me",
-            firstSubtitle = "I am Dr. Bronn, and I like to help people. I am a neurologist for around 15 years. " +
-                    "Doctor is my calling since I was a child."
+            firstSubtitle = currentUserDetails?.aboutUser ?: "No details provided."
         ),
         CombinedProfileInfoCard(
             firstPainter = painterResource(R.drawable.contact_vector),
             firstTitle = "Mobile Number",
-            firstSubtitle = "+63 920 412 5528",
+            firstSubtitle = currentUserDetails?.phoneNumber ?: "No details provided.",
             secondPainter = painterResource(R.drawable.work_vector),
             secondTitle = "Work Schedule",
-            secondSubtitle = "9:00 AM to 5:00 PM every Monday to Friday"
+            secondSubtitle = currentUserDetails?.workSchedule ?: "No details provided."
         ),
         MultipleTitleProfileInfoCard(
             firstPainter = painterResource(R.drawable.hospital_vector),
             firstTitle = "Hospital",
-            firstSubtitle1 = "Chong Hua Hospital",
-            firstSubtitle2 = "Cebu Doctors' University-Hospital",
+            firstSubtitle1 = currentUserDetails?.hospital ?: "No details provided.",
+            firstSubtitle2 = currentUserDetails?.extraHospital ?: "No details provided.",
             secondPainter = painterResource(R.drawable.affiliations_vector),
-            secondTitle = "Affiliations",
-            secondSubtitle1 = "Philippine Neurological Association",
-            secondSubtitle2 = "Stroke Society of the Philippines"
+            secondTitle = "Affiliation",
+            secondSubtitle1 = currentUserDetails?.affiliation ?: "No details provided.",
+            secondSubtitle2 = currentUserDetails?.extraAffiliation ?: "No details provided."
         )
     )
 }

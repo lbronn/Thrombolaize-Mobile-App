@@ -15,12 +15,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class UserProfileViewModel: ViewModel() {
+    private val userDetailsFetched = MutableStateFlow<List<UserDetails>>(emptyList())
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseUser = auth.currentUser
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val firebaseStorage = Firebase.storage
     private val fetchedPicturesURL = MutableStateFlow<String?>(null)
     val currentPictureURL = fetchedPicturesURL.asStateFlow()
+    val currentUserDetails = userDetailsFetched.asStateFlow()
+
+    init {
+        fetchAllUserDetails()
+    }
 
     fun uploadProfile(imageUri: Uri) {
         val fileRef = firebaseStorage.reference.child("profile_images/${System.currentTimeMillis()}.jpg")
@@ -35,8 +41,8 @@ class UserProfileViewModel: ViewModel() {
         }
     }
 
-    fun addUserDetails(aboutUser: String, phoneNumber: String, workSchedule: String, hospitals: String, affiliations: String, onResult: (Boolean, String?) -> Unit) {
-        if (aboutUser.isBlank() || phoneNumber.isBlank() || workSchedule.isBlank() || hospitals.isBlank() || affiliations.isBlank()) {
+    fun addUserDetails(aboutUser: String, phoneNumber: String, workSchedule: String, hospital: String, extraHospital: String, affiliation: String, extraAffiliation: String, onResult: (Boolean, String?) -> Unit) {
+        if (aboutUser.isBlank() || phoneNumber.isBlank() || workSchedule.isBlank() || hospital.isBlank() || extraHospital.isBlank() || affiliation.isBlank() || extraAffiliation.isBlank()) {
             onResult(false, "All information are required.")
             return
         }
@@ -47,8 +53,10 @@ class UserProfileViewModel: ViewModel() {
                 aboutUser = aboutUser,
                 phoneNumber = phoneNumber,
                 workSchedule = workSchedule,
-                hospitals = hospitals,
-                affiliations = affiliations
+                hospital = hospital,
+                extraHospital = extraHospital,
+                affiliation = affiliation,
+                extraAffiliation = extraAffiliation
             )
         }
 
@@ -62,5 +70,31 @@ class UserProfileViewModel: ViewModel() {
             .set(userDetails)
             .addOnSuccessListener { onResult(true, "Successfully saved user information.") }
             .addOnFailureListener { onResult(false, "Failed to save user information.") }
+    }
+
+    private fun fetchAllUserDetails() {
+        firestore.collection("userDetails")
+            .get()
+            .addOnSuccessListener { documents ->
+                val list = documents.mapNotNull {
+                    it.toObject(UserDetails::class.java)
+                }
+                userDetailsFetched.value = list
+                list.forEach { document ->
+                    val uid = document.uid
+                    val aboutUser = document.aboutUser
+                    val phone = document.phoneNumber
+                    val workSchedule = document.workSchedule
+                    val hospital = document.hospital
+                    val extraHospital = document.extraHospital
+                    val affiliation = document.affiliation
+                    val extraAffiliation = document.extraAffiliation
+                    Log.d("UserDetails", "Fetched user: $uid, $aboutUser, $phone, $workSchedule, " +
+                                "$hospital, $affiliation, $extraHospital, $extraAffiliation")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("UserDisplayName", "Error fetching users: ${exception.localizedMessage}")
+            }
     }
 }

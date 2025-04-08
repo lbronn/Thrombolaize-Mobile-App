@@ -2,8 +2,8 @@ package com.example.thrombolaize.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -33,13 +34,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
@@ -55,7 +54,6 @@ import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 
 @Composable
 fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
-    UseLaunchEffect(userAuthenticateViewModel)
     val context = LocalContext.current
     val scrollable = rememberScrollState()
 
@@ -67,6 +65,8 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
     val userName = userAuthenticateViewModel.currentUserName
     val displayName = "Dr. $userName"
     val displaySpecialty = user?.specialty ?: "No specialty found!"
+
+    UseLaunchEffect(userAuthenticateViewModel)
 
     Column(
         modifier = Modifier
@@ -109,42 +109,38 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
             Box(
                 modifier = Modifier
                     .offset(y = (-50).dp)
+                    .clip(CircleShape)
+                    .background(FigmaBlue)
                     .size(110.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
-                Box(
+                Icon(
+                    painter = painterResource(id = R.drawable.person_vector),
+                    tint = White,
+                    contentDescription = "Profile Picture",
                     modifier = Modifier
-                        .matchParentSize()
-                        .clip(CircleShape)
-                        .zIndex(1f)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.profile_pic),
-                        contentDescription = "Profile Picture",
-                        contentScale = ContentScale.FillWidth
-                    )
-                }
+                        .padding(12.dp)
+                        .size(120.dp)
+                )
+            }
 
-                IconButton (
-                    onClick = {
-                        navController.navigate(Screens.EditProfile.route)
-                    },
+            IconButton (
+                onClick = {
+                    navController.navigate(Screens.EditProfile.route)
+                },
+                modifier = Modifier.offset(x = 40.dp, y = -(89).dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.edit_vector),
+                    contentDescription = "edit profile",
+                    tint = FigmaBlue,
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .offset(x = 10.dp, y = 3.dp)
-                        .zIndex(1f)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.edit_vector),
-                        contentDescription = "edit profile",
-                        tint = White,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clip(CircleShape)
-                            .background(FigmaBlue)
-                            .padding(5.dp)
-                    )
-                }
+                        .border(width = 2.dp, color = FigmaBlue, shape = CircleShape)
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(White)
+                        .padding(6.dp)
+                )
             }
 
             Text(
@@ -155,7 +151,7 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                 color = Color.Black,
                 modifier = Modifier
                     .padding(top = 20.dp)
-                    .offset(y = (-45).dp)
+                    .offset(y = (-85).dp)
             )
             Text(
                 text = displaySpecialty,
@@ -163,7 +159,7 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                 fontWeight = FontWeight.W600,
                 fontSize = 14.sp,
                 color = FigmaBlue,
-                modifier = Modifier.offset(y = (-45).dp)
+                modifier = Modifier.offset(y = (-85).dp)
             )
 
             Spacer(
@@ -171,6 +167,14 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
             )
 
             profileInfo()
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .offset(y = -(45).dp),
+                thickness = 2.dp,
+                color = FigmaBlue
+            )
 
             Column(
                 verticalArrangement = Arrangement.Bottom
@@ -189,7 +193,7 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                     ),
                     modifier = Modifier
                         .padding(bottom = 10.dp)
-                        .offset(y = (-18).dp)
+                        .offset(y = (-15).dp)
                         .align(Alignment.CenterHorizontally)
                 ) {
                     Text(
@@ -201,7 +205,6 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                     )
                 }
             }
-
 
             if (showBottomLogoutSheet) {
                 LogoutBottomModalSheet (

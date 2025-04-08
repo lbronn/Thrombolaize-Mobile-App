@@ -5,6 +5,8 @@ data class UserDetails(
     val aboutUser: String = "",
     val phoneNumber: String = "",
     val workSchedule: String = "",
-    val hospitals: String = "",
-    val affiliations: String = ""
+    val hospital: String = "",
+    val extraHospital: String = "",
+    val affiliation: String = "",
+    val extraAffiliation: String = ""
 )
