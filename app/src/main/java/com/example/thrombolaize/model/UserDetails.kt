@@ -8,5 +8,6 @@ data class UserDetails(
     val hospital: String = "",
     val extraHospital: String = "",
     val affiliation: String = "",
-    val extraAffiliation: String = ""
+    val extraAffiliation: String = "",
+    val userProfilePicURL: String= ""
 )

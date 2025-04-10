@@ -20,24 +20,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.ChatsInMessages
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
+import com.example.thrombolaize.view.modals.DeleteChatModalSheet
 import com.example.thrombolaize.viewmodel.ChatsViewModel
 
 @Composable
 fun Chats(navController: NavController, messageID: String, receiverID: String, receiverName: String) {
     val chatsViewModel: ChatsViewModel = hiltViewModel()
     val chats by chatsViewModel.currentChats.collectAsState()
+    var showDeleteConversationModal by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(key1 = true) {
         chatsViewModel.chatsListener(messageID)
@@ -69,8 +78,32 @@ fun Chats(navController: NavController, messageID: String, receiverID: String, r
                         )
                     }
                 },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            showDeleteConversationModal = true
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.moresettings_vector),
+                            contentDescription = "more settings",
+                            tint = White,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(FigmaBlue)
             )
+
+            if (showDeleteConversationModal) {
+                DeleteChatModalSheet (
+                    onDismissRequest = {
+                        showDeleteConversationModal = false
+                    },
+                    navController,
+                    messageID
+                )
+            }
         }
     ) { contentPadding ->
         Column(

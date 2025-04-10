@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,8 +40,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
 import com.example.thrombolaize.main.helperclasses.profileInfo
@@ -51,9 +54,14 @@ import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.view.modals.LogoutBottomModalSheet
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
+import com.example.thrombolaize.viewmodel.UserProfileViewModel
 
 @Composable
-fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
+fun Profile(
+    userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(),
+    userProfileViewModel: UserProfileViewModel = hiltViewModel(),
+    navController: NavController
+) {
     val context = LocalContext.current
     val scrollable = rememberScrollState()
 
@@ -62,6 +70,11 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
     }
 
     val user = userAuthenticateViewModel.currentUser
+    val currentUserUID = user?.uid ?: ""
+    val allUserDetails by userProfileViewModel.currentUserDetails.collectAsState()
+    val currentUserProfile = allUserDetails.firstOrNull { it.uid == currentUserUID }
+    val userProfilePictureURL = currentUserProfile?.userProfilePicURL
+
     val userName = userAuthenticateViewModel.currentUserName
     val displayName = "Dr. $userName"
     val displaySpecialty = user?.specialty ?: "No specialty found!"
@@ -114,14 +127,24 @@ fun Profile(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()
                     .size(110.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.person_vector),
-                    tint = White,
-                    contentDescription = "Profile Picture",
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .size(120.dp)
-                )
+                if (!userProfilePictureURL.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = userProfilePictureURL,
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .size(120.dp)
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.person_vector),
+                        tint = White,
+                        contentDescription = "Profile Picture",
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .size(120.dp)
+                    )
+                }
             }
 
             IconButton (

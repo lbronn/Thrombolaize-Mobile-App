@@ -58,4 +58,8 @@ class ChatsViewModel @Inject constructor() : ViewModel() {
         )
         firebaseDB.reference.child("chats").child(messageID).push().setValue(newChat)
     }
+
+    fun removeChats(messageID: String) {
+        firebaseDB.getReference("chats").child(messageID).removeValue()
+    }
 }

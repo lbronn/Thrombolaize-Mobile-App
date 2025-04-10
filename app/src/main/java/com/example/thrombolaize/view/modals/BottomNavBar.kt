@@ -3,6 +3,7 @@ package com.example.thrombolaize.view.modals
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -130,9 +131,10 @@ fun BottomNavBar(selectedIndex: Int, onItemSelected: (Int) -> Unit, items: List<
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(bottom = 5.dp)
+                .size(50.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.edit_vector),
+                painter = painterResource(R.drawable.thrombo_button_vector),
                 contentDescription = "Center FAB"
             )
         }

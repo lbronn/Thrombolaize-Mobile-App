@@ -129,6 +129,7 @@ fun AddUserDetails(navController: NavController) {
     OutlinedTextField(
         value = workSchedule,
         onValueChange = { workSchedule = it },
+        singleLine = true,
         minLines = 1,
         maxLines = 3,
         label = {
@@ -141,7 +142,7 @@ fun AddUserDetails(navController: NavController) {
             Text(
                 fontFamily = fontFamily,
                 color = Color.Gray,
-                text = "9 to 5 every weekdays"
+                text = "9 AM to 5 PM every Monday to Friday"
             )
         },
         colors = OutlinedTextFieldDefaults.colors(
@@ -170,6 +171,7 @@ fun AddUserDetails(navController: NavController) {
     OutlinedTextField(
         value = hospital,
         onValueChange = { hospital = it },
+        singleLine = true,
         minLines = 1,
         maxLines = 1,
         label = {
@@ -259,6 +261,7 @@ fun AddUserDetails(navController: NavController) {
             onValueChange = { additionalHospital = it },
             minLines = 1,
             maxLines = 1,
+            singleLine = true,
             label = {
                 Text(
                     fontFamily = fontFamily,
@@ -292,6 +295,7 @@ fun AddUserDetails(navController: NavController) {
         onValueChange = { affiliation = it },
         minLines = 1,
         maxLines = 1,
+        singleLine = true,
         label = {
             Text(
                 fontFamily = fontFamily,
@@ -386,6 +390,7 @@ fun AddUserDetails(navController: NavController) {
             onValueChange = { additionalAffiliation = it },
             minLines = 1,
             maxLines = 1,
+            singleLine = true,
             label = {
                 Text(
                     fontFamily = fontFamily,

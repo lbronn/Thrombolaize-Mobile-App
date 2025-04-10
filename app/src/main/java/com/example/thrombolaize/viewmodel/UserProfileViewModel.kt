@@ -29,12 +29,14 @@ class UserProfileViewModel: ViewModel() {
     }
 
     fun uploadProfile(imageUri: Uri) {
-        val fileRef = firebaseStorage.reference.child("profile_images/${System.currentTimeMillis()}.jpg")
+        val fileRef = firebaseStorage.reference.child("profile_images/${firebaseUser?.uid}/${System.currentTimeMillis()}.jpg")
+
         viewModelScope.launch {
             try {
                 fileRef.putFile(imageUri).await()
                 val downloadUrl = fileRef.downloadUrl.await().toString()
                 fetchedPicturesURL.value = downloadUrl
+                Log.d("PictureURL", downloadUrl)
             } catch (e: Exception) {
                 Log.e("StorageFetchError", e.printStackTrace().toString())
             }
@@ -42,10 +44,12 @@ class UserProfileViewModel: ViewModel() {
     }
 
     fun addUserDetails(aboutUser: String, phoneNumber: String, workSchedule: String, hospital: String, extraHospital: String, affiliation: String, extraAffiliation: String, onResult: (Boolean, String?) -> Unit) {
-        if (aboutUser.isBlank() || phoneNumber.isBlank() || workSchedule.isBlank() || hospital.isBlank() || extraHospital.isBlank() || affiliation.isBlank() || extraAffiliation.isBlank()) {
+        if (aboutUser.isBlank() || phoneNumber.isBlank() || workSchedule.isBlank() || hospital.isBlank() || affiliation.isBlank()) {
             onResult(false, "All information are required.")
             return
         }
+
+        val userProfilePicURL = fetchedPicturesURL.value ?: ""
 
         val newUserDetails = firebaseUser?.let { user ->
             UserDetails(
@@ -56,7 +60,8 @@ class UserProfileViewModel: ViewModel() {
                 hospital = hospital,
                 extraHospital = extraHospital,
                 affiliation = affiliation,
-                extraAffiliation = extraAffiliation
+                extraAffiliation = extraAffiliation,
+                userProfilePicURL = userProfilePicURL
             )
         }
 
@@ -89,8 +94,9 @@ class UserProfileViewModel: ViewModel() {
                     val extraHospital = document.extraHospital
                     val affiliation = document.affiliation
                     val extraAffiliation = document.extraAffiliation
+                    val userProfilePicURL = document.userProfilePicURL
                     Log.d("UserDetails", "Fetched user: $uid, $aboutUser, $phone, $workSchedule, " +
-                                "$hospital, $affiliation, $extraHospital, $extraAffiliation")
+                                "$hospital, $affiliation, $extraHospital, $extraAffiliation, $userProfilePicURL")
                 }
             }
             .addOnFailureListener { exception ->

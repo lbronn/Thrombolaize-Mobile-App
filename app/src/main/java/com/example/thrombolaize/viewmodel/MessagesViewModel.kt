@@ -48,7 +48,6 @@ class MessagesViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-
     fun addMessages(receiverID: String, receiverName: String) {
         if (currentUser.isNotEmpty()) {
             val addMessage = firebaseDB.getReference("messages").push().key
@@ -63,6 +62,12 @@ class MessagesViewModel @Inject constructor() : ViewModel() {
             firebaseDB.getReference("messages").child(addMessage!!).setValue(newMessage).addOnSuccessListener {
                 getMessages()
             }
+        }
+    }
+
+    fun deleteMessages() {
+        if (currentUser.isNotEmpty()) {
+            firebaseDB.getReference("messages").removeValue()
         }
     }
 }
