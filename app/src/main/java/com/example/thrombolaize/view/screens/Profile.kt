@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -122,18 +123,19 @@ fun Profile(
             Box(
                 modifier = Modifier
                     .offset(y = (-50).dp)
+                    .size(110.dp)
                     .clip(CircleShape)
                     .background(FigmaBlue)
-                    .size(110.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
                 if (!userProfilePictureURL.isNullOrEmpty()) {
                     AsyncImage(
                         model = userProfilePictureURL,
                         contentDescription = "Profile Picture",
+                        contentScale = ContentScale.FillWidth,
                         modifier = Modifier
-                            .padding(12.dp)
-                            .size(120.dp)
+                            .clip(CircleShape)
+                            .background(Color.Transparent)
                     )
                 } else {
                     Icon(

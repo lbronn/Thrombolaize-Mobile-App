@@ -215,7 +215,7 @@ fun DeleteChatModalSheet(onDismissRequest: () -> Unit, navController: NavControl
                             coroutineScope.launch {
                                 bottomSheetState.hide()
                                 onDismissRequest()
-//                                messagesViewModel.deleteMessages()
+                                messagesViewModel.deleteMessages(messageID)
                                 chatsViewModel.removeChats(messageID)
                             }
                             navController.navigate(Screens.Messages.route)

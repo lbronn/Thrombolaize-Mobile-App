@@ -32,7 +32,6 @@ fun MessagesInfo(navController: NavController) {
                 partnerID = message.receiverID
                 partnerName = message.receiverName
             } else {
-                // Current user is the receiver – show the sender's details.
                 displayName = message.senderName
                 partnerID = message.senderID
                 partnerName = message.senderName

@@ -5,6 +5,7 @@ package com.example.thrombolaize.view.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,7 +62,9 @@ fun Messages(navController: NavController) {
                             painter = painterResource(R.drawable.newchat_vector),
                             contentDescription = "new chat",
                             tint = White,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier
+                                .offset(x = -(4).dp)
+                                .size(30.dp)
                         )
                     }
                 },

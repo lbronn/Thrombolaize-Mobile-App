@@ -23,16 +23,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
 import com.example.thrombolaize.ui.theme.Alabaster
@@ -40,11 +45,21 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
+import com.example.thrombolaize.viewmodel.UserProfileViewModel
 
 @Composable
-fun Home(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()) {
+fun Home(
+    userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(),
+    userProfileViewModel: UserProfileViewModel = hiltViewModel()
+) {
     UseLaunchEffect(userAuthenticateViewModel)
     val userName = userAuthenticateViewModel.currentUserName
+
+    val user = userAuthenticateViewModel.currentUser
+    val currentUserUID = user?.uid ?: ""
+    val allUserDetails by userProfileViewModel.currentUserDetails.collectAsState()
+    val currentUserProfile = allUserDetails.firstOrNull { it.uid == currentUserUID }
+    val userProfilePictureURL = currentUserProfile?.userProfilePicURL
 
     Scaffold(
         topBar = {
@@ -55,7 +70,7 @@ fun Home(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()) {
                             .fillMaxWidth()
                             .height(100.dp)
                             .background(FigmaBlue)
-                            .offset(x = 12.dp),
+                            .offset(x = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Start
                     ) {
@@ -64,11 +79,22 @@ fun Home(userAuthenticateViewModel: UserAuthenticationViewModel = viewModel()) {
                                 .size(65.dp)
                                 .clip(CircleShape)
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.profile_pic),
-                                contentDescription = "Profile Picture",
-                                contentScale = ContentScale.FillWidth
-                            )
+                            if (!userProfilePictureURL.isNullOrEmpty()) {
+                                AsyncImage(
+                                    model = userProfilePictureURL,
+                                    contentDescription = "Profile Picture",
+                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .background(Color.Transparent)
+                                )
+                            } else {
+                                Image(
+                                    painter = painterResource(id = R.drawable.profile_pic),
+                                    contentDescription = "Profile Picture",
+                                    contentScale = ContentScale.FillWidth
+                                )
+                            }
                         }
 
                         Spacer(modifier = Modifier.width(15.dp))
