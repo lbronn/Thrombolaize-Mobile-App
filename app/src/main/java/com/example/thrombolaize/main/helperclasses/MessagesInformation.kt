@@ -9,17 +9,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
 import com.example.thrombolaize.view.modals.MessagesCard
 import com.example.thrombolaize.viewmodel.MessagesViewModel
+import com.example.thrombolaize.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun MessagesInfo(navController: NavController) {
     val messagesViewModel = hiltViewModel<MessagesViewModel>()
+    val userProfileViewModel: UserProfileViewModel = viewModel()
+
     val messages by messagesViewModel.currentMessages.collectAsState()
-    val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+    val currentUser = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    val allUserDetails by userProfileViewModel.currentUserDetails.collectAsState()
 
     LazyColumn {
         items(messages) { message ->
@@ -37,13 +42,28 @@ fun MessagesInfo(navController: NavController) {
                 partnerName = message.senderName
             }
 
-            MessagesCard(
-                painter = painterResource(R.drawable.person_vector),
-                messageTitle = displayName,
-                modifier = Modifier.clickable {
-                    navController.navigate("chats/${message.messageID}/${partnerID}/${partnerName}")
-                }
-            )
+            val partnerDetails = allUserDetails.firstOrNull { it.uid == partnerID }
+            val profilePicURL = partnerDetails?.userProfilePicURL
+
+            if (!profilePicURL.isNullOrEmpty()) {
+                MessagesCard(
+                    painter = null,
+                    picture = profilePicURL,
+                    messageTitle = displayName,
+                    modifier = Modifier.clickable {
+                        navController.navigate("chats/${message.messageID}/${partnerID}/${partnerName}")
+                    },
+                )
+            } else {
+                MessagesCard(
+                    painter = painterResource(R.drawable.person_vector),
+                    picture = "",
+                    messageTitle = displayName,
+                    modifier = Modifier.clickable {
+                        navController.navigate("chats/${message.messageID}/${partnerID}/${partnerName}")
+                    },
+                )
+            }
         }
     }
 }
