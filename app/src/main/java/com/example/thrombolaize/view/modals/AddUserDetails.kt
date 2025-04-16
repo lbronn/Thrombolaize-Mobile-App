@@ -428,7 +428,7 @@ fun AddUserDetails(navController: NavController) {
 
     Button(
         onClick = {
-            userProfileViewModel.addUserDetails(
+            userProfileViewModel.saveUserDetails(
                 aboutUser = about,
                 phoneNumber = phoneNumber,
                 workSchedule = workSchedule,

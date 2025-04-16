@@ -74,7 +74,7 @@ fun AddProfilePicture(userProfileViewModel: UserProfileViewModel = hiltViewModel
                 color = FigmaBlue,
                 maxLines = 1,
                 text = "Tap to Replace Picture",
-                modifier = Modifier.offset(y = 73.dp)
+                modifier = Modifier.offset(y = 85.dp)
             )
         } else {
             Icon(

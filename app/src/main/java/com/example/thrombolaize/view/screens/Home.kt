@@ -2,7 +2,8 @@
 
 package com.example.thrombolaize.view.screens
 
-import androidx.compose.foundation.Image
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -44,9 +46,11 @@ import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
+import com.example.thrombolaize.view.modals.CurrentTimeCard
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 import com.example.thrombolaize.viewmodel.UserProfileViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Home(
     userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(),
@@ -89,10 +93,14 @@ fun Home(
                                         .background(Color.Transparent)
                                 )
                             } else {
-                                Image(
-                                    painter = painterResource(id = R.drawable.profile_pic),
+                                Icon(
+                                    painter = painterResource(id = R.drawable.person_vector),
+                                    tint = FigmaBlue,
                                     contentDescription = "Profile Picture",
-                                    contentScale = ContentScale.FillWidth
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .background(White)
+                                        .size(120.dp)
                                 )
                             }
                         }
@@ -135,7 +143,7 @@ fun Home(
                 .fillMaxSize()
                 .background(Alabaster)
         ) {
-
+            CurrentTimeCard()
         }
     }
 }

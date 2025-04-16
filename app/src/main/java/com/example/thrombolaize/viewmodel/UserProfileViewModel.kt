@@ -43,38 +43,64 @@ class UserProfileViewModel: ViewModel() {
         }
     }
 
-    fun addUserDetails(aboutUser: String, phoneNumber: String, workSchedule: String, hospital: String, extraHospital: String, affiliation: String, extraAffiliation: String, onResult: (Boolean, String?) -> Unit) {
-        if (aboutUser.isBlank() || phoneNumber.isBlank() || workSchedule.isBlank() || hospital.isBlank() || affiliation.isBlank()) {
-            onResult(false, "All information are required.")
+    fun saveUserDetails(aboutUser: String, phoneNumber: String, workSchedule: String, hospital: String, extraHospital: String, affiliation: String, extraAffiliation: String, onResult: (Boolean, String?) -> Unit) {
+        val userUID = firebaseUser?.uid
+        if (userUID == null) {
+            onResult(false, "No logged in user.")
             return
         }
 
         val userProfilePicURL = fetchedPicturesURL.value ?: ""
+        val newUserDetails = UserDetails(
+            uid = userUID,
+            aboutUser = aboutUser,
+            phoneNumber = phoneNumber,
+            workSchedule = workSchedule,
+            hospital = hospital,
+            extraHospital = extraHospital,
+            affiliation = affiliation,
+            extraAffiliation = extraAffiliation,
+            userProfilePicURL = userProfilePicURL
+        )
 
-        val newUserDetails = firebaseUser?.let { user ->
-            UserDetails(
-                uid = user.uid,
-                aboutUser = aboutUser,
-                phoneNumber = phoneNumber,
-                workSchedule = workSchedule,
-                hospital = hospital,
-                extraHospital = extraHospital,
-                affiliation = affiliation,
-                extraAffiliation = extraAffiliation,
-                userProfilePicURL = userProfilePicURL
-            )
-        }
+        firestore.collection("userDetails").document(userUID).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val updateUserDetails = mutableMapOf<String, Any>()
+                    if (aboutUser.isNotBlank()) updateUserDetails["aboutUser"] = aboutUser
+                    if (phoneNumber.isNotBlank()) updateUserDetails["phoneNumber"] = phoneNumber
+                    if (workSchedule.isNotBlank()) updateUserDetails["workSchedule"] = workSchedule
+                    if (hospital.isNotBlank()) updateUserDetails["hospital"] = hospital
+                    if (extraHospital.isNotBlank()) updateUserDetails["extraHospital"] = extraHospital
+                    if (affiliation.isNotBlank()) updateUserDetails["affiliation"] = affiliation
+                    if (extraAffiliation.isNotBlank()) updateUserDetails["extraAffiliation"] = extraAffiliation
 
-        if (newUserDetails != null) {
-            saveUserDetails(newUserDetails, onResult)
-        }
-    }
+                    val updatedProfilePicURL = fetchedPicturesURL.value ?: ""
+                    if (updatedProfilePicURL.isNotBlank()) {
+                        updateUserDetails["userProfilePicURL"] = updatedProfilePicURL
+                    }
 
-    private fun saveUserDetails(userDetails: UserDetails, onResult: (Boolean, String?) -> Unit) {
-        firestore.collection("userDetails").document(userDetails.uid)
-            .set(userDetails)
-            .addOnSuccessListener { onResult(true, "Successfully saved user information.") }
-            .addOnFailureListener { onResult(false, "Failed to save user information.") }
+                    if (updateUserDetails.isEmpty()) {
+                        onResult(false, "No updates on the user's profile.")
+                        return@addOnSuccessListener
+                    }
+
+                    firestore.collection("userDetails").document(userUID)
+                        .update(updateUserDetails)
+                        .addOnSuccessListener { onResult(true, "User profile is updated successfully.") }
+                        .addOnFailureListener { exception ->
+                            onResult(false, "Failed to update user details: ${exception.localizedMessage}")
+                        }
+                } else {
+                    firestore.collection("userDetails").document(userUID)
+                        .set(newUserDetails)
+                        .addOnSuccessListener { onResult(true, "Successfully saved user information.") }
+                        .addOnFailureListener { onResult(false, "Failed to save user information.") }
+                }
+            }
+            .addOnFailureListener { exception ->
+                onResult(false, "Error checking user details: ${exception.localizedMessage}")
+            }
     }
 
     private fun fetchAllUserDetails() {

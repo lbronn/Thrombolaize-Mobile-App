@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -125,7 +124,6 @@ fun Profile(
                     .offset(y = (-50).dp)
                     .size(110.dp)
                     .clip(CircleShape)
-                    .background(FigmaBlue)
                     .align(Alignment.CenterHorizontally)
             ) {
                 if (!userProfilePictureURL.isNullOrEmpty()) {
@@ -135,6 +133,7 @@ fun Profile(
                         contentScale = ContentScale.FillWidth,
                         modifier = Modifier
                             .clip(CircleShape)
+                            .size(110.dp)
                             .background(Color.Transparent)
                     )
                 } else {
@@ -143,7 +142,8 @@ fun Profile(
                         tint = White,
                         contentDescription = "Profile Picture",
                         modifier = Modifier
-                            .padding(12.dp)
+                            .clip(CircleShape)
+                            .background(FigmaBlue)
                             .size(120.dp)
                     )
                 }
@@ -192,14 +192,6 @@ fun Profile(
             )
 
             profileInfo()
-
-            HorizontalDivider(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .offset(y = -(45).dp),
-                thickness = 2.dp,
-                color = FigmaBlue
-            )
 
             Column(
                 verticalArrangement = Arrangement.Bottom

@@ -50,7 +50,8 @@ fun MessageToUsersCard(userAuthenticateViewModel: UserAuthenticationViewModel = 
             Card(
                 modifier = Modifier
                     .width(400.dp)
-                    .height(60.dp)
+                    .height(65.dp)
+                    .padding(bottom = 5.dp)
                     .clickable {
                         onUserSelected(user)
                     },
