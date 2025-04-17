@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +45,7 @@ import com.example.thrombolaize.viewmodel.UserProfileViewModel
 fun AddUserDetails(navController: NavController) {
     val context = LocalContext.current
     val hideKeyboard = LocalSoftwareKeyboardController.current
+
     val userProfileViewModel: UserProfileViewModel = hiltViewModel()
 
     var about by remember { mutableStateOf("") }
@@ -81,15 +83,15 @@ fun AddUserDetails(navController: NavController) {
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black
         ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp, top = 35.dp, bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
                 hideKeyboard?.hide()
             }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, top = 35.dp, bottom = 10.dp)
+        )
     )
 
     OutlinedTextField(
@@ -115,15 +117,18 @@ fun AddUserDetails(navController: NavController) {
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black
         ),
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
         keyboardActions = KeyboardActions(
             onDone = {
                 hideKeyboard?.hide()
             }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
     )
 
     OutlinedTextField(
@@ -158,14 +163,14 @@ fun AddUserDetails(navController: NavController) {
             unfocusedTextColor = Color.Black
         ),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
         keyboardActions = KeyboardActions(
             onDone = {
                 hideKeyboard?.hide()
             }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
     )
 
     OutlinedTextField(
@@ -192,15 +197,15 @@ fun AddUserDetails(navController: NavController) {
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black
         ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
                 hideKeyboard?.hide()
             }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
     )
 
     Text(
@@ -278,15 +283,15 @@ fun AddUserDetails(navController: NavController) {
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
                     hideKeyboard?.hide()
                 }
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+            )
         )
     }
 
@@ -321,15 +326,15 @@ fun AddUserDetails(navController: NavController) {
             focusedTextColor = Color.Black,
             unfocusedTextColor = Color.Black
         ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
             onDone = {
                 hideKeyboard?.hide()
             }
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+        )
     )
 
     Text(
@@ -414,15 +419,15 @@ fun AddUserDetails(navController: NavController) {
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
                     hideKeyboard?.hide()
                 }
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 30.dp, end = 30.dp, bottom = 10.dp)
+            )
         )
     }
 

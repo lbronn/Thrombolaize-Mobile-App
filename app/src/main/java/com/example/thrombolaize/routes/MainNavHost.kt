@@ -1,5 +1,7 @@
 package com.example.thrombolaize.routes
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -17,6 +19,7 @@ import com.example.thrombolaize.view.screens.Messages
 import com.example.thrombolaize.view.screens.Profile
 import com.example.thrombolaize.view.screens.EditProfile
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Screens.Login.route, modifier = modifier) {
@@ -73,15 +76,9 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
         }
 
         composable("chats/{messageID}/{receiverID}/{receiverName}", arguments = listOf(
-            navArgument("messageID") {
-                type = NavType.StringType
-            },
-            navArgument("receiverID") {
-                type = NavType.StringType
-            },
-            navArgument("receiverName") {
-                type = NavType.StringType
-            }
+            navArgument("messageID") { type = NavType.StringType },
+            navArgument("receiverID") { type = NavType.StringType },
+            navArgument("receiverName") { type = NavType.StringType }
         )) {
             val messageID = it.arguments?.getString("messageID") ?: ""
             val receiverID = it.arguments?.getString("receiverID") ?: ""

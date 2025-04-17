@@ -39,16 +39,14 @@ import com.example.thrombolaize.view.modals.ChatBubble
 @Composable
 fun ChatsInMessages(chats: List<Chat>, onSendChat: (String) -> Unit) {
     val hideKeyboard = LocalSoftwareKeyboardController.current
-    var chatContent by remember {
-        mutableStateOf("")
-    }
+
+    var chatContent by remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
+        modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(
+            userScrollEnabled = true,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 70.dp)
@@ -107,7 +105,7 @@ fun ChatsInMessages(chats: List<Chat>, onSendChat: (String) -> Unit) {
                     imageVector = Icons.AutoMirrored.Filled.Send,
                     contentDescription = "send button",
                     tint = FigmaBlue,
-                    modifier = Modifier.size(35.dp)
+                    modifier = Modifier.size(50.dp)
                 )
             }
         }
