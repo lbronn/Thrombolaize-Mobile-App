@@ -3,6 +3,7 @@ package com.example.thrombolaize.view.screens
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -65,6 +67,7 @@ fun Login(loginSuccess: () -> Unit,
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordEntered by remember { mutableStateOf(false) }
+    var showPassword by remember { mutableStateOf(true) }
 
     Box(
         modifier = Modifier
@@ -147,6 +150,24 @@ fun Login(loginSuccess: () -> Unit,
                         contentDescription = "email icon"
                     )
                 },
+                trailingIcon = {
+                    val showPasswordIcon = if (!showPassword) {
+                        painterResource(R.drawable.show_password_vector)
+                    } else {
+                        painterResource(R.drawable.hide_password_vector)
+                    }
+
+                    Icon(
+                        painter = showPasswordIcon,
+                        contentDescription = "show/hide password",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(end = 5.dp)
+                            .clickable {
+                                showPassword = !showPassword
+                            }
+                    )
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Alabaster,
                     unfocusedContainerColor = Alabaster,
@@ -154,12 +175,14 @@ fun Login(loginSuccess: () -> Unit,
                     unfocusedBorderColor = FigmaBlue,
                     focusedLeadingIconColor = FigmaBlue,
                     unfocusedLeadingIconColor = FigmaBlue,
+                    focusedTrailingIconColor = FigmaBlue,
+                    unfocusedTrailingIconColor = FigmaBlue,
                     focusedLabelColor = FigmaBlue,
                     unfocusedLabelColor = FigmaBlue,
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
                 ),
-                visualTransformation = if (passwordEntered) PasswordVisualTransformation() else VisualTransformation.None,
+                visualTransformation = if (passwordEntered && showPassword) PasswordVisualTransformation() else VisualTransformation.None,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 30.dp, end = 30.dp),

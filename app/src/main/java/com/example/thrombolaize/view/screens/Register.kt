@@ -3,6 +3,7 @@ package com.example.thrombolaize.view.screens
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -69,6 +70,7 @@ fun Register(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordEntered by remember { mutableStateOf(false) }
+    var showPassword by remember { mutableStateOf(false) }
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -270,6 +272,24 @@ fun Register(
                         contentDescription = "password icon"
                     )
                 },
+                trailingIcon = {
+                    val showPasswordIcon = if (!showPassword) {
+                        painterResource(R.drawable.show_password_vector)
+                    } else {
+                        painterResource(R.drawable.hide_password_vector)
+                    }
+
+                    Icon(
+                        painter = showPasswordIcon,
+                        contentDescription = "show/hide password",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(end = 5.dp)
+                            .clickable {
+                                showPassword = !showPassword
+                            }
+                    )
+                },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Alabaster,
                     unfocusedContainerColor = Alabaster,
@@ -277,12 +297,14 @@ fun Register(
                     unfocusedBorderColor = FigmaBlue,
                     focusedLeadingIconColor = FigmaBlue,
                     unfocusedLeadingIconColor = FigmaBlue,
+                    focusedTrailingIconColor = FigmaBlue,
+                    unfocusedTrailingIconColor = FigmaBlue,
                     focusedLabelColor = FigmaBlue,
                     unfocusedLabelColor = FigmaBlue,
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
                 ),
-                visualTransformation = if (!passwordEntered) VisualTransformation.None else PasswordVisualTransformation(),
+                visualTransformation = if (passwordEntered && showPassword) PasswordVisualTransformation() else VisualTransformation.None,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
