@@ -1,9 +1,10 @@
 package com.example.thrombolaize.main.maincomponent
 
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,10 +12,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -24,11 +26,13 @@ import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.ThrombolaizeTheme
 import com.example.thrombolaize.view.modals.BottomNavBar
+import com.example.thrombolaize.view.modals.OpenThromboModalSheet
 import com.example.thrombolaize.view.modals.bottomNavBarIcons
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Thrombolaize : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -40,11 +44,14 @@ class Thrombolaize : ComponentActivity() {
                 }
 
                 val navController = rememberNavController()
-                val context = LocalContext.current
 
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
                 val bottomNavRoutes = bottomNBIconsRoutes()
+
+                var showThrombolaizeModal by remember {
+                    mutableStateOf(false)
+                }
 
                 Surface (
                     modifier = Modifier.fillMaxSize(),
@@ -66,7 +73,7 @@ class Thrombolaize : ComponentActivity() {
                                     },
                                     items = bottomNavBarItems,
                                     onFABClick = {
-                                        Toast.makeText(context, "Thrombolaize", Toast.LENGTH_SHORT).show()
+                                        showThrombolaizeModal = true
                                     }
                                 )
                             }
@@ -77,6 +84,15 @@ class Thrombolaize : ComponentActivity() {
                             modifier = Modifier
                                 .padding(innerPadding)
                                 .background(Alabaster)
+                        )
+                    }
+
+                    if (showThrombolaizeModal) {
+                        OpenThromboModalSheet(
+                            onDismissRequest = {
+                                showThrombolaizeModal = false
+                            },
+                            navController
                         )
                     }
                 }

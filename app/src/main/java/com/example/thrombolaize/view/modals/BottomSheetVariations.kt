@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -40,6 +41,7 @@ import com.example.thrombolaize.viewmodel.MessagesViewModel
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogoutBottomModalSheet(onDismissRequest: () -> Unit, userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(), navController: NavController) {
     val bottomSheetState = rememberModalBottomSheetState()
@@ -267,4 +269,26 @@ fun DeleteChatModalSheet(onDismissRequest: () -> Unit, navController: NavControl
             }
         }
     )
+}
+
+@Composable
+fun OpenThromboModalSheet(onDismissRequest: () -> Unit, navController: NavController) {
+    val coroutineScope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        sheetState = sheetState,
+        dragHandle = {
+            BottomSheetDefaults.DragHandle()
+        },
+        containerColor = Alabaster,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(top = 70.dp)
+    ) {
+        ThromboModalItems()
+    }
 }
