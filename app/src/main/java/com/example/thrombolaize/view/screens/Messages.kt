@@ -5,7 +5,6 @@ package com.example.thrombolaize.view.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,14 +62,12 @@ fun Messages(navController: NavController) {
                             contentDescription = "new chat",
                             tint = White,
                             modifier = Modifier
-                                .offset(x = -(4).dp)
                                 .size(30.dp)
                         )
                     }
                 },
-                expandedHeight = 75.dp,
+                expandedHeight = 70.dp,
                 colors = TopAppBarDefaults.topAppBarColors(FigmaBlue),
-                modifier = Modifier.padding(bottom = 10.dp)
             )
 
             if (showAddMessageModal) {

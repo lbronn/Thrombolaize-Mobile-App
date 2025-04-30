@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -37,7 +37,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -104,19 +106,7 @@ fun Profile(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(5.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.settings_vector),
-                        contentDescription = "settings",
-                        tint = White,
-                        modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(Color.Transparent)
-                            .padding(7.dp)
-
-                    )
-                }
+                ) {}
             }
 
             Box(
@@ -187,8 +177,13 @@ fun Profile(
                 modifier = Modifier.offset(y = (-85).dp)
             )
 
-            Spacer(
-                modifier = Modifier.height(5.dp)
+            HorizontalDivider(
+                thickness = 2.dp,
+                color = FigmaBlue,
+                modifier = Modifier
+                    .padding(horizontal = 50.dp)
+                    .offset(y = (-70).dp)
+
             )
 
             profileInfo()
@@ -210,8 +205,9 @@ fun Profile(
                     ),
                     modifier = Modifier
                         .padding(bottom = 10.dp)
-                        .offset(y = (-15).dp)
                         .align(Alignment.CenterHorizontally)
+                        .offset(y = (-20).dp)
+
                 ) {
                     Text(
                         fontFamily = fontFamily,
@@ -222,6 +218,30 @@ fun Profile(
                     )
                 }
             }
+
+            Text(
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.ExtraBold,
+                fontStyle = FontStyle.Normal,
+                fontSize = 11.sp,
+                textAlign = TextAlign.Center,
+                color = Color.Gray,
+                maxLines = 1,
+                text = "Thrombolaize 2025 • All Rights Reserved.",
+                modifier = Modifier.offset(y = -(20).dp)
+            )
+
+            Text(
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.ExtraBold,
+                fontStyle = FontStyle.Normal,
+                fontSize = 11.sp,
+                textAlign = TextAlign.Center,
+                color = Color.Gray,
+                maxLines = 1,
+                text = "Developed by SamBaYa Solutions.",
+                modifier = Modifier.offset(y = -(27).dp)
+            )
 
             if (showBottomLogoutSheet) {
                 LogoutBottomModalSheet (

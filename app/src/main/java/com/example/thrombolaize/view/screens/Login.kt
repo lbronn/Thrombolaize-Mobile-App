@@ -79,14 +79,14 @@ fun Login(loginSuccess: () -> Unit,
             contentDescription = "login logo",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 55.dp)
+                .padding(top = 40.dp)
         )
 
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
             Spacer(
-                modifier = Modifier.height(470.dp)
+                modifier = Modifier.height(410.dp)
             )
 
             OutlinedTextField(
@@ -253,7 +253,7 @@ fun Login(loginSuccess: () -> Unit,
                 TextButton(
                     onClick = {
                         navController.navigate(Screens.Register.route)
-                    }
+                    },
                 ) {
                     Text(
                         fontFamily = fontFamily,

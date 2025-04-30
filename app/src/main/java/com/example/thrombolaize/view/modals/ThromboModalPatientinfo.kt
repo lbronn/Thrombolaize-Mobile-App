@@ -153,7 +153,7 @@ fun ThromboModalPatientInfo() {
                 .fillMaxWidth()
                 .padding(start = 30.dp, end = 30.dp, bottom = 10.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
@@ -312,7 +312,7 @@ fun ThromboModalPatientInfo() {
                 fontFamily = fontFamily,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                text = "Register",
+                text = "Thrombolaize",
                 color = Color.White
             )
         }

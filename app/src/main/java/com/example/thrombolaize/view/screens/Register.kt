@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -83,15 +84,15 @@ fun Register(
             contentDescription = "register image",
             modifier = Modifier
                 .fillMaxWidth()
-                .size(350.dp)
-                .padding(bottom = 25.dp)
+                .size(300.dp)
+                .offset(y = -(12).dp)
         )
 
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
             Spacer(
-                modifier = Modifier.height(300.dp)
+                modifier = Modifier.height(260.dp)
             )
 
             OutlinedTextField(

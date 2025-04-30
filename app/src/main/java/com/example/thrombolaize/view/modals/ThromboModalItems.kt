@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -161,14 +162,26 @@ fun ThromboModalItems() {
                         modifier = Modifier.offset(y = 170.dp)
                     )
                 }
+
+                Text(
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 11.sp,
+                    textAlign = TextAlign.Center,
+                    color = Color.Gray,
+                    maxLines = 1,
+                    text = "(.jpeg, .png, .dicom files accepted)",
+                    modifier = Modifier.offset(y = 190.dp)
+                )
             }
         }
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(60.dp))
 
         Text(
             fontFamily = fontFamily,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.ExtraBold,
             fontSize = 15.sp,
             textAlign = TextAlign.Center,
             color = Color.Black,
