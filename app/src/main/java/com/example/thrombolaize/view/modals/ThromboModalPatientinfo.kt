@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
-import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.fontFamily
@@ -76,6 +75,7 @@ fun ThromboModalPatientInfo(onDismissRequest: () -> Unit, navController: NavCont
     var strokeOnset by remember { mutableStateOf("") }
     var timeOfArrival by remember { mutableStateOf("") }
     var approveInformation by remember { mutableStateOf(false) }
+    var lastCreatedAt by remember { mutableStateOf<Long?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
     val isPatientInformationComplete by remember(
@@ -352,8 +352,9 @@ fun ThromboModalPatientInfo(onDismissRequest: () -> Unit, navController: NavCont
                         patientSex = patientSex,
                         strokeOnset = strokeOnset,
                         timeOfArrival = timeOfArrival
-                    ) { success, message ->
+                    ) { success, message, createdAt ->
                         if (success) {
+                            lastCreatedAt = createdAt
                             coroutineScope.launch {
                                 delay(10_000)
                                 patientAge = ""
@@ -361,11 +362,11 @@ fun ThromboModalPatientInfo(onDismissRequest: () -> Unit, navController: NavCont
                                 strokeOnset = ""
                                 timeOfArrival = ""
                                 approveInformation = false
-                                thrombolaizeViewModel.clearCTScan()
                                 isLoading = false
                                 bottomSheetState.hide()
                                 onDismissRequest()
-                                navController.navigate(Screens.ThrombolaizeResult.route)
+                                navController.navigate("thrombo_result/$createdAt")
+                                thrombolaizeViewModel.clearCTScan()
                             }
                         } else {
                             Toast.makeText(
@@ -390,7 +391,7 @@ fun ThromboModalPatientInfo(onDismissRequest: () -> Unit, navController: NavCont
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     text = "Thrombolaize",
-                    color = if (isPatientInformationComplete) Color.White else FigmaBlue
+                    color = if (isPatientInformationComplete) Color.White else Color.LightGray
                 )
             }
 

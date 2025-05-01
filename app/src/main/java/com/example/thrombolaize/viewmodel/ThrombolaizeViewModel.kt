@@ -22,6 +22,7 @@ class ThrombolaizeViewModel: ViewModel() {
     private val firebaseStorage = Firebase.storage
     private val fetchedCTScansURL = MutableStateFlow<String?>(null)
     val currentCTScanURL = fetchedCTScansURL.asStateFlow()
+    val currentPatientDetails = patientDetailsFetched.asStateFlow()
 
     init {
         fetchAllPatientDetails()
@@ -42,19 +43,21 @@ class ThrombolaizeViewModel: ViewModel() {
         }
     }
 
-    fun savePatientDetails(patientAge: String, patientSex: String, strokeOnset: String, timeOfArrival: String, onResult: (Boolean, String?) -> Unit) {
+    fun savePatientDetails(patientAge: String, patientSex: String, strokeOnset: String, timeOfArrival: String, onResult: (Boolean, String?, Long?) -> Unit) {
         val userUID = firebaseUser?.uid
         if (userUID == null) {
-            onResult(false, "No logged in user.")
+            onResult(false, "No logged in user.", null)
             return
         }
 
         val patientCTScanURL = fetchedCTScansURL.value
-
         if (patientAge.isBlank() || patientSex.isBlank() || strokeOnset.isBlank() || timeOfArrival.isBlank() || patientCTScanURL == null) {
-            onResult(false, "Please complete all fields and upload a CT scan.")
+            onResult(false, "Please complete all fields and upload a CT scan.", null)
             return
         }
+
+        val createdAt = System.currentTimeMillis()
+        val patientDetailsCreated = createdAt.toString()
 
         val newUserDetails = PatientDetails(
             uid = userUID,
@@ -62,10 +65,11 @@ class ThrombolaizeViewModel: ViewModel() {
             patientSex = patientSex,
             strokeOnset = strokeOnset,
             timeOfArrival = timeOfArrival,
-            patientCTScanURL = patientCTScanURL
+            patientCTScanURL = patientCTScanURL,
+            createdAt = createdAt
         )
 
-        firestore.collection("patientDetails").document(userUID).get()
+        firestore.collection("patientDetails").document(patientDetailsCreated).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val updatePatientDetails = mutableMapOf<String, Any>()
@@ -80,25 +84,21 @@ class ThrombolaizeViewModel: ViewModel() {
                     }
 
                     if (updatePatientDetails.isEmpty()) {
-                        onResult(false, "No updates on the patient's profile.")
+                        onResult(false, "No updates on the patient's profile.", null)
                         return@addOnSuccessListener
                     }
-
-                    firestore.collection("patientDetails").document(userUID)
-                        .update(updatePatientDetails)
-                        .addOnSuccessListener { onResult(true, "Patient's basic information is updated successfully.") }
-                        .addOnFailureListener { exception ->
-                            onResult(false, "Failed to update patient details: ${exception.localizedMessage}")
-                        }
                 } else {
-                    firestore.collection("patientDetails").document(userUID)
+                    firestore.collection("patientDetails").document(patientDetailsCreated)
                         .set(newUserDetails)
-                        .addOnSuccessListener { onResult(true, "Successfully saved patient's basic information.") }
-                        .addOnFailureListener { onResult(false, "Failed to save patient's basic information.") }
+                        .addOnSuccessListener {
+                            fetchAllPatientDetails()
+                            onResult(true, "Successfully saved patient's basic information.", createdAt)
+                        }
+                        .addOnFailureListener { onResult(false, "Failed to save patient's basic information.", null) }
                 }
             }
             .addOnFailureListener { exception ->
-                onResult(false, "Error checking patient details: ${exception.localizedMessage}")
+                onResult(false, "Error checking patient details: ${exception.localizedMessage}", null)
             }
     }
 

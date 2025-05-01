@@ -51,13 +51,11 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
         }
 
         composable(Screens.ForgotPassword.route) {
-            ForgotPassword(
-                navController = navController
-            )
+            ForgotPassword(navController = navController)
         }
 
         composable(Screens.Home.route) {
-            Home()
+            Home(navController = navController)
         }
 
         composable(Screens.Messages.route) {
@@ -87,8 +85,11 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
             Chats(navController = navController, messageID = messageID, receiverID = receiverID, receiverName = receiverName)
         }
 
-        composable(Screens.ThrombolaizeResult.route) {
-            ThrombolaizeResult(navController = navController)
+        composable("thrombo_result/{createdAt}", arguments = listOf(
+            navArgument("createdAt") { type = NavType.LongType }
+        )) { backStackEntry ->
+            val createdAtArg = backStackEntry.arguments!!.getLong("createdAt")
+            ThrombolaizeResult(navController, createdAtArg)
         }
     }
 }

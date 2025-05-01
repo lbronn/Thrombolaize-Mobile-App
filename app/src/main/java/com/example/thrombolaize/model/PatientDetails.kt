@@ -6,5 +6,6 @@ data class PatientDetails (
     val patientSex: String = "",
     val strokeOnset: String = "",
     val timeOfArrival: String = "",
-    val patientCTScanURL: String= ""
+    val patientCTScanURL: String= "",
+    val createdAt: Long = System.currentTimeMillis()
 )

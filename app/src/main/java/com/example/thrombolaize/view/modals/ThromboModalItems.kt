@@ -172,7 +172,7 @@ fun ThromboModalItems(onDismissRequest: () -> Unit, navController: NavController
                     textAlign = TextAlign.Center,
                     color = Color.Gray,
                     maxLines = 1,
-                    text = "(.jpeg, .png, .dicom files accepted)",
+                    text = "(.jpeg, .jpg, and .png files accepted)",
                     modifier = Modifier.offset(y = 190.dp)
                 )
             }

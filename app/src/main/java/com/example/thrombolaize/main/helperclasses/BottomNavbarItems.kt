@@ -25,7 +25,6 @@ fun bottomNBIconsRoutes(): List<String> {
         Screens.Messages.route,
         Screens.Hospitals.route,
         Screens.Profile.route,
-        Screens.Chats.route,
-        Screens.ThrombolaizeResult.route
+        Screens.Chats.route
     )
 }

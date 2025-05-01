@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
@@ -47,12 +48,14 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.view.modals.CurrentTimeCard
+import com.example.thrombolaize.view.modals.ThrombolaizeHistory
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
 import com.example.thrombolaize.viewmodel.UserProfileViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Home(
+    navController: NavController,
     userAuthenticateViewModel: UserAuthenticationViewModel = viewModel(),
     userProfileViewModel: UserProfileViewModel = hiltViewModel()
 ) {
@@ -144,6 +147,22 @@ fun Home(
                 .background(Alabaster)
         ) {
             CurrentTimeCard()
+
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = 125.dp)
+            ) {
+                Text(
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    text = "Thrombolaized Patient Records",
+                    color = FigmaBlue,
+                )
+            }
+
+            ThrombolaizeHistory(navController)
         }
     }
 }
