@@ -1,3 +1,5 @@
+<img src="https://drive.google.com/uc?export=view&id=14bjlTmKEky9Vhf6OQUJ6Jd3uzUy5sIc1" alt="Thrombolaize Banner">
+
 <h1>Thrombolaize: Your Rapid Stroke Care Triage Tool</h1>
 
 <p>Thrombolaize is a <b>Jetpack-Compose Android application</b> that helps stroke teams triage patients by instantly analyzing uploaded CT scans with an on-device AI model. Alongside imaging, clinicians enter age, sex, onset window and arrival time, and the app returns an evidence-based IV-tPA recommendation while logging every decision to Firebase for audit. End-to-end encryption plus Google Cloud-KMS ensure patient privacy, and a local cache keeps the workflow alive offline.</p>
@@ -22,3 +24,5 @@
     <b>Modular, Open Architecture</b> – Built with Jetpack Compose, Hilt, Room and StateFlow; contributors can plug in new ML models, add languages, or swap back-ends via clean repository patterns.
   </li>
 </ul>
+
+ <h2>All Rights Reserved by the Thrombolaize Team.</h2>
