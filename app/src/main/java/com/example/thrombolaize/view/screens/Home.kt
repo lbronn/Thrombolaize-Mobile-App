@@ -47,6 +47,7 @@ import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
+import com.example.thrombolaize.view.modals.AboutThrombolaize
 import com.example.thrombolaize.view.modals.CurrentTimeCard
 import com.example.thrombolaize.view.modals.ThrombolaizeHistory
 import com.example.thrombolaize.viewmodel.UserAuthenticationViewModel
@@ -163,6 +164,8 @@ fun Home(
             }
 
             ThrombolaizeHistory(navController)
+
+            AboutThrombolaize()
         }
     }
 }
