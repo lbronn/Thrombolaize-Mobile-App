@@ -14,7 +14,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.MessagesInfo
@@ -32,9 +37,16 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.view.modals.NewMessagesModalSheet
+import com.example.thrombolaize.viewmodel.MessagesViewModel
 
 @Composable
 fun Messages(navController: NavController) {
+    val state = rememberPullToRefreshState()
+    val messagesViewModel = hiltViewModel<MessagesViewModel>()
+    var isRefreshing by remember { mutableStateOf(false) }
+    val latestMessages by messagesViewModel.currentMessages.collectAsState()
+    LaunchedEffect(latestMessages) { isRefreshing = false }
+
     var showAddMessageModal by remember {
         mutableStateOf(false)
     }
@@ -85,7 +97,17 @@ fun Messages(navController: NavController) {
                 .padding(contentPadding)
                 .background(Alabaster)
         ) {
-            MessagesInfo(navController = navController)
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = {
+                    isRefreshing = true
+                    messagesViewModel.refreshMessages()
+                },
+                state = state,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                MessagesInfo(navController = navController)
+            }
         }
     }
 }

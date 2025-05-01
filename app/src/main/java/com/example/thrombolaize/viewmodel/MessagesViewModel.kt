@@ -65,6 +65,10 @@ class MessagesViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun refreshMessages() {
+        getMessages()
+    }
+
     fun deleteMessages(messageID: String) {
         if (currentUser.isNotEmpty()) {
             firebaseDB.getReference("messages").child(messageID).removeValue()
