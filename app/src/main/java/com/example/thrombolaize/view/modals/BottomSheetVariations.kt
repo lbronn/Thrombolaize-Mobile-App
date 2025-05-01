@@ -273,7 +273,6 @@ fun DeleteChatModalSheet(onDismissRequest: () -> Unit, navController: NavControl
 
 @Composable
 fun OpenThromboModalSheet(onDismissRequest: () -> Unit, navController: NavController) {
-    val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -289,6 +288,6 @@ fun OpenThromboModalSheet(onDismissRequest: () -> Unit, navController: NavContro
             .fillMaxHeight()
             .padding(top = 70.dp)
     ) {
-        ThromboModalItems()
+        ThromboModalItems(onDismissRequest, navController)
     }
 }

@@ -10,4 +10,5 @@ sealed class Screens(val route: String) {
     data object Hospitals: Screens("hospitals")
     data object Profile: Screens("profile")
     data object EditProfile: Screens("editProfile")
+    data object ThrombolaizeResult: Screens("thrombolaizeResult")
 }

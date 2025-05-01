@@ -18,6 +18,7 @@ import com.example.thrombolaize.view.screens.Hospitals
 import com.example.thrombolaize.view.screens.Messages
 import com.example.thrombolaize.view.screens.Profile
 import com.example.thrombolaize.view.screens.EditProfile
+import com.example.thrombolaize.view.screens.ThrombolaizeResult
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -84,6 +85,10 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
             val receiverID = it.arguments?.getString("receiverID") ?: ""
             val receiverName = it.arguments?.getString("receiverName") ?: ""
             Chats(navController = navController, messageID = messageID, receiverID = receiverID, receiverName = receiverName)
+        }
+
+        composable(Screens.ThrombolaizeResult.route) {
+            ThrombolaizeResult(navController = navController)
         }
     }
 }

@@ -34,24 +34,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.thrombolaize.R
 import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
-import com.example.thrombolaize.viewmodel.UserProfileViewModel
+import com.example.thrombolaize.viewmodel.ThrombolaizeViewModel
 
 @Composable
-fun ThromboModalItems() {
+fun ThromboModalItems(onDismissRequest: () -> Unit, navController: NavController) {
     val scrollState = rememberScrollState()
 
-    val userProfileViewModel: UserProfileViewModel = hiltViewModel()
+    val thrombolaizeViewModel: ThrombolaizeViewModel = hiltViewModel()
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     val launcher = rememberLauncherForActivityResult(contract = GetContent()) { uri: Uri? ->
         imageUri = uri
-        uri?.let { userProfileViewModel.uploadProfile(it) }
+        uri?.let { thrombolaizeViewModel.uploadPatientCT(it) }
     }
-    val imageUrl by userProfileViewModel.currentPictureURL.collectAsState()
+    val imageUrl by thrombolaizeViewModel.currentCTScanURL.collectAsState()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -189,6 +190,6 @@ fun ThromboModalItems() {
             text = "Basic Patient Information",
         )
 
-        ThromboModalPatientInfo()
+        ThromboModalPatientInfo(onDismissRequest, navController)
     }
 }
