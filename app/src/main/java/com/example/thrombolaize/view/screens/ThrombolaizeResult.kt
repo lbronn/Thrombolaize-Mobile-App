@@ -297,18 +297,6 @@ fun ThrombolaizeResult(
                     .align(Alignment.End)
                     .padding(end = 13.dp)
             )
-
-            Text(
-                fontFamily = fontFamily,
-                fontWeight = FontWeight.Normal,
-                fontStyle = FontStyle.Italic,
-                fontSize = 11.sp,
-                text = currentUserUID,
-                color = Color.Gray,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 13.dp)
-            )
         }
 
         Button(
@@ -318,7 +306,7 @@ fun ThrombolaizeResult(
             colors = ButtonDefaults.buttonColors(FigmaBlue),
             border = BorderStroke(3.dp, FigmaBlue),
             contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
-            modifier = Modifier.padding(top = 875.dp)
+            modifier = Modifier.padding(top = 870.dp)
         ) {
             Text(
                 fontFamily = fontFamily,
