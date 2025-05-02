@@ -33,13 +33,16 @@ import com.example.thrombolaize.ui.theme.FigmaBlue
 import com.example.thrombolaize.ui.theme.White
 import com.example.thrombolaize.ui.theme.fontFamily
 import com.example.thrombolaize.viewmodel.ThrombolaizeViewModel
+import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @Composable
 fun ThrombolaizeHistory(navController: NavController, thrombolaizeViewModel: ThrombolaizeViewModel = hiltViewModel()) {
+    val currentUser = FirebaseAuth.getInstance().currentUser?.uid
     val thrombolaizeHistory by thrombolaizeViewModel.currentPatientDetails.collectAsState()
+    val checkUser = thrombolaizeHistory.filter { it.uid == currentUser }
 
     if (thrombolaizeHistory.isEmpty()) {
         Text(
@@ -73,7 +76,7 @@ fun ThrombolaizeHistory(navController: NavController, thrombolaizeViewModel: Thr
     ) {
         LazyColumn {
             itemsIndexed(
-                items = thrombolaizeHistory.sortedBy { it.createdAt },
+                items = checkUser.sortedBy { it.createdAt },
                 key = { _, item -> item.createdAt }
             ) { idx, item ->
                 HistoryRow(item, idx + 1, navController)

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +21,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,6 +40,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.thrombolaize.R
 import com.example.thrombolaize.main.helperclasses.UseLaunchEffect
+import com.example.thrombolaize.model.AIPredictionResponse
 import com.example.thrombolaize.routes.Screens
 import com.example.thrombolaize.ui.theme.Alabaster
 import com.example.thrombolaize.ui.theme.FigmaBlue
@@ -62,14 +61,51 @@ fun ThrombolaizeResult(
     val user = userAuthenticateViewModel.currentUser
     val currentUserUID = user?.uid ?: ""
     val allPatientDetails by thrombolaizeViewModel.currentPatientDetails.collectAsState()
-    val patientsRecord = allPatientDetails.firstOrNull { it.createdAt == createdAt && it.uid == currentUserUID }
-    val fallBackRecord = patientsRecord ?: allPatientDetails.maxByOrNull { it.createdAt }
+    val allPredictionResults by thrombolaizeViewModel.currentPredictionResults.collectAsState()
+    val patientsRecord = allPatientDetails.firstOrNull { it.uid == currentUserUID && it.createdAt == createdAt }
 
-    val patientCTScanURL = fallBackRecord?.patientCTScanURL
-    val patientAge = fallBackRecord?.patientAge
-    val patientSex = fallBackRecord?.patientSex
-    val strokeOnset = fallBackRecord?.strokeOnset
-    val timeOfArrival = fallBackRecord?.timeOfArrival
+    val patientCTScanURL = patientsRecord?.patientCTScanURL
+    val patientAge = patientsRecord?.patientAge
+    val patientSex = patientsRecord?.patientSex
+    val strokeOnset = patientsRecord?.strokeOnset
+    val timeOfArrival = patientsRecord?.timeOfArrival
+
+    val predictionValues = allPredictionResults.firstOrNull{ it.uid == currentUserUID && it.createdAt == createdAt } ?: AIPredictionResponse(
+        "0%",
+        "0%",
+        "0%",
+        "",
+        "",
+        "",
+        0L,
+        ""
+    )
+
+    val predictedFindings = predictionValues.predicted
+
+    val ischemicPrediction = predictionValues.ischemic.removeSuffix("%").toDoubleOrNull() ?: 0.0
+    val hemorrhagicPrediction = predictionValues.hemorrhagic.removeSuffix("%").toDoubleOrNull() ?: 0.0
+    val normalPrediction = predictionValues.normal.removeSuffix("%").toDoubleOrNull() ?: 0.0
+
+    val highestFindings = listOf(ischemicPrediction to predictionValues.ischemic, hemorrhagicPrediction to predictionValues.hemorrhagic,
+        normalPrediction to predictionValues.normal).maxByOrNull { it.first }!!.second
+
+    val onsetHours = strokeOnset?.substringBefore(" ")?.toDoubleOrNull() ?: Double.MAX_VALUE
+
+    val recommendation = when (highestFindings) {
+        predictionValues.hemorrhagic ->
+            "hemorrhagic stroke is suspected and utmost and immediate triage is advised to optimize patient outcomes."
+        predictionValues.normal ->
+            "findings are within normal limits and the patient is advised to rest and pursue routine follow-up."
+        predictionValues.ischemic -> {
+            if (onsetHours <= 4.5) {
+                "hyperacute ischemic stroke is suspected (<4.5 hours) and tPA therapy is strongly advised immediately."
+            } else {
+                "acute ischemic stroke is suspected (>4.5 hours) and utmost and immediate triage is advised to save the patient."
+            }
+        }
+        else -> ""
+    }
 
     Box(
         modifier = Modifier
@@ -103,33 +139,37 @@ fun ThrombolaizeResult(
                 .size(300.dp)
                 .offset(y = 50.dp)
         ) {
-            if (!patientCTScanURL.isNullOrEmpty()) {
-                AsyncImage(
-                    model = patientCTScanURL,
-                    contentDescription = "Patient CT Scan",
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier.background(Color.Transparent)
-                )
+            if (predictionValues.predicted.isNotBlank()) {
+                val overlayUrl = predictionValues.ischemickey
+                    .takeIf { it.isNotBlank() }
+                    ?: patientCTScanURL
 
-                Row {
-                    Text(
-                        fontFamily = fontFamily,
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp,
-                        text = "Patient's CT Scan",
-                        color = Color.Black,
-                        modifier = Modifier.offset(y = 170.dp)
+                if (!overlayUrl.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = overlayUrl,
+                        contentDescription = "Overlay or CT scan",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             } else {
-                Icon(
-                    painter = painterResource(id = R.drawable.thrombo_button_vector),
-                    tint = FigmaBlue,
-                    contentDescription = "Patient CT Scan",
-                    modifier = Modifier
-                        .background(White)
-                        .size(300.dp)
-                )
+                if (!patientCTScanURL.isNullOrEmpty()) {
+                    AsyncImage(
+                        model = patientCTScanURL,
+                        contentDescription = "Patient CT Scan",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Icon(
+                        painter = painterResource(id = R.drawable.thrombo_button_vector),
+                        contentDescription = "Placeholder",
+                        tint = FigmaBlue,
+                        modifier = Modifier
+                            .background(White)
+                            .size(300.dp)
+                    )
+                }
             }
 
             Row {
@@ -170,31 +210,44 @@ fun ThrombolaizeResult(
             Row (
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(top = 5.dp)
+                    .padding(top = 20.dp, bottom = 12.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
                 Text(
                     fontFamily = fontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 18.sp,
-                    text = "Stroke:",
+                    text = "Findings: ",
                     color = Color.Black,
-                    modifier = Modifier.padding(16.dp)
                 )
 
-                VerticalDivider(
+                Text(
+                    fontFamily = fontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
+                    text = predictedFindings,
                     color = FigmaBlue,
-                    thickness = 1.dp,
-                    modifier = Modifier.height(20.dp)
                 )
+            }
 
+            HorizontalDivider(
+                color = FigmaBlue,
+                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 5.dp, horizontal = 100.dp)
+            )
+
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(top = 12.dp, bottom = 12.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 Text(
                     fontFamily = fontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 18.sp,
                     text = "Stroke Onset: ",
                     color = Color.Black,
-                    modifier = Modifier.padding(start = 16.dp)
                 )
 
                 Text(
@@ -208,7 +261,7 @@ fun ThrombolaizeResult(
 
             HorizontalDivider(
                 color = FigmaBlue,
-                thickness = 1.dp,
+                thickness = 2.dp,
                 modifier = Modifier.padding(vertical = 5.dp, horizontal = 20.dp)
             )
 
@@ -222,11 +275,11 @@ fun ThrombolaizeResult(
                     fontFamily = fontFamily,
                     fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
-                    text = "Patient is $patientAge years old and a $patientSex. The patient arrived at the " +
-                            "hospital at around $timeOfArrival and the stroke happened $strokeOnset ago. " +
-                            "Based on the initial CT Scan after hospital arrival and stroke onset time, " +
-                            "the patient is having 95% hyperacute ischemic stroke and is recommended for " +
-                            "tPA therapy.",
+                    text = "The patient is a $patientAge-year-old $patientSex who presented to the hospital " +
+                            "at around $timeOfArrival, $strokeOnset after stroke onset. " +
+                            "Thrombolaize analysis of the initial CT scan predicts $highestFindings $predictedFindings. " +
+                            "Based on these findings and the clinical timeline, " +
+                            recommendation,
                     textAlign = TextAlign.Justify,
                     color = Color.Black,
                     modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp, end = 16.dp)
@@ -244,6 +297,18 @@ fun ThrombolaizeResult(
                     .align(Alignment.End)
                     .padding(end = 13.dp)
             )
+
+            Text(
+                fontFamily = fontFamily,
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Italic,
+                fontSize = 11.sp,
+                text = currentUserUID,
+                color = Color.Gray,
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(end = 13.dp)
+            )
         }
 
         Button(
@@ -253,7 +318,7 @@ fun ThrombolaizeResult(
             colors = ButtonDefaults.buttonColors(FigmaBlue),
             border = BorderStroke(3.dp, FigmaBlue),
             contentPadding = PaddingValues(start = 90.dp, end = 90.dp, top = 15.dp, bottom = 15.dp),
-            modifier = Modifier.padding(top = 755.dp)
+            modifier = Modifier.padding(top = 875.dp)
         ) {
             Text(
                 fontFamily = fontFamily,

@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation (libs.androidx.hilt.navigation.compose)
     implementation(libs.coil.compose)
+    implementation(libs.gson)
     kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
